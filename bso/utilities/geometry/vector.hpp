@@ -1,6 +1,10 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
+#ifndef M_PI
+#define M_PI 3.141592653589793238463
+#endif // M_PI
+
 #include <Eigen/Dense>
 #include <initializer_list>
 #include <bso/utilities/geometry/vertex.hpp>
