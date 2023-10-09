@@ -1,5 +1,7 @@
 # README BSO toolbox
 
+This is the copy of Janneke Heuvelman
+
 ## What is this repository for?
    
 This repository contains a C++ library named the Building Spatial design Optimization toolbox (BSO toolbox).
