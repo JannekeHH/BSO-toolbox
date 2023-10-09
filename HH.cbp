@@ -1,0 +1,890 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="HH" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/HH" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="C:/CB/unit_tests" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/HH" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="C:/CB/unit_tests" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="bso/building_physics/bp_model.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/bp_model.hpp" />
+		<Unit filename="bso/building_physics/properties/construction.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/properties/construction.hpp" />
+		<Unit filename="bso/building_physics/properties/glazing.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/properties/glazing.hpp" />
+		<Unit filename="bso/building_physics/properties/layer.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/properties/layer.hpp" />
+		<Unit filename="bso/building_physics/properties/material.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/properties/material.hpp" />
+		<Unit filename="bso/building_physics/properties/space_settings.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/properties/space_settings.hpp" />
+		<Unit filename="bso/building_physics/state/dependent/dependent_state.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/state/dependent/dependent_state.hpp" />
+		<Unit filename="bso/building_physics/state/dependent/floor.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/state/dependent/floor.hpp" />
+		<Unit filename="bso/building_physics/state/dependent/space.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/state/dependent/space.hpp" />
+		<Unit filename="bso/building_physics/state/dependent/wall.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/state/dependent/wall.hpp" />
+		<Unit filename="bso/building_physics/state/dependent/window.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/state/dependent/window.hpp" />
+		<Unit filename="bso/building_physics/state/independent/ground_profile.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/state/independent/ground_profile.hpp" />
+		<Unit filename="bso/building_physics/state/independent/independent_state.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/state/independent/independent_state.hpp" />
+		<Unit filename="bso/building_physics/state/independent/weather_profile.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/state/independent/weather_profile.hpp" />
+		<Unit filename="bso/building_physics/state/state.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/state/state.hpp" />
+		<Unit filename="bso/building_physics/state/states.hpp" />
+		<Unit filename="bso/building_physics/state_space_system.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/building_physics/state_space_system.hpp" />
+		<Unit filename="bso/grammar/Read_Stabilize_Settings.hpp" />
+		<Unit filename="bso/grammar/Read_Zoning_Settings.hpp" />
+		<Unit filename="bso/grammar/bp_grammars/default_bp_grammar.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/grammar.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/grammar.hpp" />
+		<Unit filename="bso/grammar/grammar_bp_specifics.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/grammar_sd_specifics.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/bp_rule_set/bp_rectangle_rule.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/bp_rule_set/bp_rectangle_rule.hpp" />
+		<Unit filename="bso/grammar/rule_set/bp_rule_set/bp_rule_set.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/bp_rule_set/bp_rule_set.hpp" />
+		<Unit filename="bso/grammar/rule_set/bp_rule_set/bp_rule_sets.hpp" />
+		<Unit filename="bso/grammar/rule_set/bp_rule_set/bp_space_rule.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/bp_rule_set/bp_space_rule.hpp" />
+		<Unit filename="bso/grammar/rule_set/cuboid_property.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/cuboid_property.hpp" />
+		<Unit filename="bso/grammar/rule_set/edge_property.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/edge_property.hpp" />
+		<Unit filename="bso/grammar/rule_set/line_property.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/line_property.hpp" />
+		<Unit filename="bso/grammar/rule_set/point_property.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/point_property.hpp" />
+		<Unit filename="bso/grammar/rule_set/property_base.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/property_base.hpp" />
+		<Unit filename="bso/grammar/rule_set/rectangle_property.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/rectangle_property.hpp" />
+		<Unit filename="bso/grammar/rule_set/rule_sets.hpp" />
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/SD_Line_Rules(zoning).hpp" />
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_cuboid_rule.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_cuboid_rule.hpp" />
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_line_rule.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_line_rule.hpp" />
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_rectangle_rule.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_rectangle_rule.hpp" />
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_rule_set.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_rule_set.hpp" />
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_rule_sets.hpp" />
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_vertex_rule.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/sd_rule_set/sd_vertex_rule.hpp" />
+		<Unit filename="bso/grammar/rule_set/space_property.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/space_property.hpp" />
+		<Unit filename="bso/grammar/rule_set/surface_property.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/surface_property.hpp" />
+		<Unit filename="bso/grammar/rule_set/vertex_property.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/rule_set/vertex_property.hpp" />
+		<Unit filename="bso/grammar/sd_grammars/Grammar_stabilize.hpp" />
+		<Unit filename="bso/grammar/sd_grammars/Grammar_zoning.hpp" />
+		<Unit filename="bso/grammar/sd_grammars/Grammar_zoning_stabilize.hpp" />
+		<Unit filename="bso/grammar/sd_grammars/default_sd_grammar.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/sd_grammars/design_response_grammar.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/sd_grammars/optimizer_assignment.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/grammar/sd_grammars/volume_sd_grammar.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/Zoning.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/Zoning.hpp" />
+		<Unit filename="bso/spatial_design/Zoning/Zone.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/Zoning/Zone.hpp" />
+		<Unit filename="bso/spatial_design/cf_building.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_building_entity.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_building_entity.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_building_model.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_building_model.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_cuboid.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_cuboid.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_edge.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_edge.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_entity.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_entity.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_geometry_entity.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_geometry_entity.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_geometry_model.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_geometry_model.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_line.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_line.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_point.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_point.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_rectangle.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_rectangle.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_space.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_space.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_surface.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_surface.hpp" />
+		<Unit filename="bso/spatial_design/conformal/cf_vertex.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/conformal/cf_vertex.hpp" />
+		<Unit filename="bso/spatial_design/ms_building.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/ms_building.hpp" />
+		<Unit filename="bso/spatial_design/ms_space.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/ms_space.hpp" />
+		<Unit filename="bso/spatial_design/sc_building.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/sc_building.hpp" />
+		<Unit filename="bso/spatial_design/xml/xml_model.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/xml/xml_model.hpp" />
+		<Unit filename="bso/spatial_design/xml/xml_vector_translator.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/xml/xml_vector_translator.hpp" />
+		<Unit filename="bso/structural_design/Stabilization/Grid.hpp" />
+		<Unit filename="bso/structural_design/Stabilization/Stabilize.hpp" />
+		<Unit filename="bso/structural_design/component/constraint.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/component/constraint.hpp" />
+		<Unit filename="bso/structural_design/component/derived_ptr_to_vertex.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/component/derived_ptr_to_vertex.hpp" />
+		<Unit filename="bso/structural_design/component/geometry.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/component/geometry.hpp" />
+		<Unit filename="bso/structural_design/component/line_segment.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/component/line_segment.hpp" />
+		<Unit filename="bso/structural_design/component/load.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/component/load.hpp" />
+		<Unit filename="bso/structural_design/component/point.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/component/point.hpp" />
+		<Unit filename="bso/structural_design/component/quad_hexahedron.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/component/quad_hexahedron.hpp" />
+		<Unit filename="bso/structural_design/component/quadrilateral.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/component/quadrilateral.hpp" />
+		<Unit filename="bso/structural_design/component/structure.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/component/structure.hpp" />
+		<Unit filename="bso/structural_design/element/beam.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/element/beam.hpp" />
+		<Unit filename="bso/structural_design/element/element.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/element/element.hpp" />
+		<Unit filename="bso/structural_design/element/elements.hpp" />
+		<Unit filename="bso/structural_design/element/flat_shell.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/element/flat_shell.hpp" />
+		<Unit filename="bso/structural_design/element/node.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/element/node.hpp" />
+		<Unit filename="bso/structural_design/element/quad_hexahedron.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/element/quad_hexahedron.hpp" />
+		<Unit filename="bso/structural_design/element/truss.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/element/truss.hpp" />
+		<Unit filename="bso/structural_design/fea.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/fea.hpp" />
+		<Unit filename="bso/structural_design/sd_model.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/sd_model.hpp" />
+		<Unit filename="bso/structural_design/topology_optimization/MMA.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/topology_optimization/MMA.hpp" />
+		<Unit filename="bso/structural_design/topology_optimization/SIMP.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/topology_optimization/componentWiseSIMP.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/topology_optimization/elementTypeSIMP.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/topology_optimization/robust.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/topology_optimization/stress_based.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/structural_design/topology_optimization/topology_optimization.hpp" />
+		<Unit filename="bso/utilities/cluster.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/cluster.hpp" />
+		<Unit filename="bso/utilities/clustering.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/clustering.hpp" />
+		<Unit filename="bso/utilities/data_point.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/data_point.hpp" />
+		<Unit filename="bso/utilities/geometry.hpp" />
+		<Unit filename="bso/utilities/geometry/line_segment.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/geometry/line_segment.hpp" />
+		<Unit filename="bso/utilities/geometry/polygon.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/geometry/polygon.hpp" />
+		<Unit filename="bso/utilities/geometry/polyhedron.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/geometry/polyhedron.hpp" />
+		<Unit filename="bso/utilities/geometry/quad_hexahedron.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/geometry/quad_hexahedron.hpp" />
+		<Unit filename="bso/utilities/geometry/quadrilateral.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/geometry/quadrilateral.hpp" />
+		<Unit filename="bso/utilities/geometry/tetrahedron.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/geometry/tetrahedron.hpp" />
+		<Unit filename="bso/utilities/geometry/triangle.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/geometry/triangle.hpp" />
+		<Unit filename="bso/utilities/geometry/vector.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/geometry/vector.hpp" />
+		<Unit filename="bso/utilities/geometry/vertex.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/geometry/vertex.hpp" />
+		<Unit filename="bso/utilities/non_dominated_search.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/non_dominated_search.hpp" />
+		<Unit filename="bso/utilities/trim_and_cast.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/utilities/trim_and_cast.hpp" />
+		<Unit filename="bso/visualization/bsp/bsp.hpp" />
+		<Unit filename="bso/visualization/models/Stabilization_Model.hpp" />
+		<Unit filename="bso/visualization/models/Zoning_Model.hpp" />
+		<Unit filename="bso/visualization/models/bp_model.hpp" />
+		<Unit filename="bso/visualization/models/cf_building.hpp" />
+		<Unit filename="bso/visualization/models/model_base.hpp" />
+		<Unit filename="bso/visualization/models/ms_building.hpp" />
+		<Unit filename="bso/visualization/models/sc_building.hpp" />
+		<Unit filename="bso/visualization/models/sd_model.hpp" />
+		<Unit filename="bso/visualization/user_interface/viewport.hpp" />
+		<Unit filename="bso/visualization/user_interface/viewportmanager.hpp" />
+		<Unit filename="bso/visualization/utilities/aabbox.hpp" />
+		<Unit filename="bso/visualization/utilities/camera.hpp" />
+		<Unit filename="bso/visualization/utilities/datatypes.hpp" />
+		<Unit filename="bso/visualization/utilities/mat4.hpp" />
+		<Unit filename="bso/visualization/utilities/objects.hpp" />
+		<Unit filename="bso/visualization/utilities/vect3.hpp" />
+		<Unit filename="bso/visualization/utilities/vect4.hpp" />
+		<Unit filename="bso/visualization/utilities/vertex_store.hpp" />
+		<Unit filename="bso/visualization/visualization.hpp" />
+		<Unit filename="example/makefile" />
+		<Unit filename="example/ms_input_file.txt" />
+		<Unit filename="example/settings/bp_settings.txt" />
+		<Unit filename="example/settings/data_period_1.txt" />
+		<Unit filename="example/settings/data_period_2.txt" />
+		<Unit filename="example/settings/sd_settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 1/MS_Input.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 1/Unzoned/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 1/Zoned/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 2/MS_Input.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 2/Span 6000/Unzoned/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 2/Span 6000/Zoned/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 2/Span 9000/Unzoned/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 2/Span 9000/Zoned/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 3/MS_Input.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 3/Unzoned/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 3/Zoned/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 4/MS_Input.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 4/Unzoned/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Design 4/Zoned/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Designs and settings/Grammar_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/MS_Input.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Makefile" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Settings/Grammar_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Settings/SD_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Settings/Stabilize_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/Settings/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/main.exe" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/main.o">
+			<Option link="0" />
+		</Unit>
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/output.txt" />
+		<Unit filename="examples zoning stabilization/Stabilize_1_L/zoning_stabilize_grammar" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Designs and settings/Design 1/MS_Input.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Designs and settings/Design 1/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Designs and settings/Design 2/MS_Input.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Designs and settings/Design 2/Span 6000/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Designs and settings/Design 2/Span 9000/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Designs and settings/Design 3/MS_Input.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Designs and settings/Design 3/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Designs and settings/Design 4/MS_Input.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Designs and settings/Design 4/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Designs and settings/Grammar_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/MS_Input.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Makefile" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Settings/Grammar_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Settings/SD_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/Settings/Zoning_Settings.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/output.txt" />
+		<Unit filename="examples zoning stabilization/Zoning_1_L/zoning_grammar" />
+		<Unit filename="unit_tests/all_test.cpp" />
+		<Unit filename="unit_tests/building_physics/bp_model_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/building_physics_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/properties/construction_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/properties/glazing_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/properties/layer_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/properties/material_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/properties/space_settings_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/state/dependent/floor_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/state/dependent/space_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/state/dependent/wall_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/state/dependent/window_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/state/independent/ground_profile_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/state/independent/weather_profile_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/building_physics/state_space_system_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/bp_grammars/default_bp_grammar_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/grammar_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/bp_rule_set/bp_rectangle_rule_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/bp_rule_set/bp_space_rule_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/cuboid_property_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/edge_property_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/line_property_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/point_property_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/rectangle_property_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/sd_rule_set/sd_line_rule_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/sd_rule_set/sd_rectangle_rule_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/sd_rule_set/sd_vertex_rule_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/space_property_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/surface_property_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/rule_set/vertex_property_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/grammar/sd_grammars/default_sd_grammar_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/spatial_design/cf_building_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/spatial_design/conformal/cuboid_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/spatial_design/conformal/line_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/spatial_design/conformal/rectangle_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/spatial_design/conformal/vertex_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/spatial_design/conformal_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/spatial_design/ms_building_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/spatial_design/ms_space_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/spatial_design/sc_building_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/spatial_design/xml/xml_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/component/constraint_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/component/line_segment_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/component/load_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/component/point_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/component/quad_hexahedron_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/component/quadrilateral_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/component/structure_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/element/beam_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/element/flat_shell_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/element/node_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/element/quad_hexahedron_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/element/truss_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/fea_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/sd_model_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/structural_design/structural_design_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/cluster_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/clustering_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/data_handling_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/data_point_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/geometry/line_segment_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/geometry/quad_hexahedron_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/geometry/quadrilateral_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/geometry/tetrahedron_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/geometry/triangle_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/geometry/vector_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/geometry/vertex_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/geometry_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/non_dominated_search_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/utilities/trim_and_cast_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/visualization/ms_building_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="unit_tests/visualization/visualization_test.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
