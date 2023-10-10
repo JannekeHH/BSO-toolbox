@@ -2,7 +2,7 @@
 #define ZONING_CPP
 
 
-namespace BSO { namespace Spatial_Design { namespace Zoning {
+namespace bso { namespace spatial_design { namespace Zoning {
 
 Zoned_Design::Zoned_Design(MS_Conformal* CF)
 {
@@ -3053,8 +3053,8 @@ std::vector<int> Zoned_Design::get_floor_coords()
 
 
 } // namespace Zoning
-} // namespace Spatial_Design
-} // namespace BSO
+} // namespace spatial_design
+} // namespace bso
 
 
 #endif //ZONING_CPP

@@ -6,11 +6,11 @@
 #include <string>
 
 #include <boost/algorithm/string.hpp>
-#include <BSO/Trim_And_Cast.hpp>
+#include <bso/utilities/trim_and_cast.hpp>
 
-namespace BSO { namespace Grammar {
+namespace bso { namespace grammar {
 
-struct Zoning_Settings
+struct zoning_settings
 {
 	unsigned int max_span;
 	unsigned int min_span;
@@ -18,13 +18,13 @@ struct Zoning_Settings
 	bool delete_expanded_designs;
 	bool zone_floors;
 	bool adaptive_thickness;
-	
-	bool unzoned;
-}; // struct Zoning_Settings
 
-Zoning_Settings read_zoning_settings(std::string input_file)
+	bool unzoned;
+}; // struct zoning_settings
+
+zoning_settings read_zoning_settings(std::string input_file)
 {
-    Zoning_Settings zoning_settings;
+    zoning_settings zoning_settings;
 
     std::fstream input(input_file.c_str()); // open a file stream
     if (!input)
@@ -109,7 +109,7 @@ Zoning_Settings read_zoning_settings(std::string input_file)
 } // read_zoning_settings()
 
 
-} // namespace Grammar
-} // namespace BSO
+} // namespace grammar
+} // namespace bso
 
 #endif // READ_ZONING_SETTINGS_HPP

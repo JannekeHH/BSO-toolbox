@@ -5,18 +5,18 @@
 #include <algorithm>
 #include <iostream>
 
-#include <BSO/Spatial_Design/Conformation.hpp>
-#include <BSO/Spatial_Design/Zoning/Zone.hpp>
-#include <BSO/Spatial_Design/Geometry/Geometry.hpp>
-#include <Read_Zoning_Settings.hpp>
+#include <bso/spatial_design/cf_building.hpp> //in plaats van conformation.hpp
+#include <bso/spatial_design/zoning/zone.hpp>
+#include <bso/utilities/geometry.hpp> //in plaats van Geometry.hpp in Geometry
+#include <bso/grammar/read_zoning_settings.hpp>
 
-namespace BSO { namespace Spatial_Design { namespace Zoning {
+namespace bso { namespace spatial_design { namespace zoning {
 
-class Zoned_Design
+class zoned_design
 {
 private:
 	MS_Conformal* m_CF;
-	Grammar::Zoning_Settings zoning_settings;
+	Grammar::zoning_settings zoning_settings;
 	std::vector<Zone*> m_zones;
 	std::vector<Geometry::Cuboid*> m_cuboids;
 	std::vector<Zone*> m_temp_zones;
@@ -102,10 +102,10 @@ public:
 	std::vector<int> get_floor_coords();
 }; // Zoned_Design
 
-} // namespace Zoning
-} // namespace Spatial_Design
-} // namespace BSO
+} // namespace zoning
+} // namespace spatial_design
+} // namespace bso
 
-#include <BSO/Spatial_Design/Zoning.cpp>
+#include <bso/spatial_design/zoning.cpp>
 
 #endif //ZONING_HPP

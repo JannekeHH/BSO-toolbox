@@ -5,22 +5,22 @@
 #define PI 3.14159265359
 #endif // PI
 
-#include <BSO/Spatial_Design/Conformation.hpp>
-#include <BSO/Visualisation/Model_Module/Model.hpp>
-#include <BSO/Visualisation/BSP_Module/BSP.hpp>
-#include <BSO/Spatial_Design/Zoning.hpp>
-#include <BSO/Spatial_Design/Zoning/Zone.hpp>
+#include <bso/spatial_design/cf_building.hpp> //cf_building? of meer
+#include <bso/visualization/models/model_base.hpp>
+#include <bso/visualization/bsp/bsp.hpp>
+#include <bso/spatial_design/zoning.hpp>
+#include <bso/spatial_design/zoning/zone.hpp>
 
 #include <cstdlib>
 
-namespace BSO { namespace Visualisation
+namespace bso { namespace visualization
 {
 
-    class Zoning_Model : public model
+    class zoning_model : public model
     {
     public:
-        Zoning_Model(Spatial_Design::MS_Conformal&, std::string, unsigned int);
-        ~Zoning_Model();
+        zoning_model(spatial_design::MS_Conformal&, std::string, unsigned int);
+        ~zoning_model();
         void render(const camera &cam) const;
         const std::string get_description();
 
@@ -54,7 +54,7 @@ namespace BSO { namespace Visualisation
     // hh, float shininess;
     // hh, bool translucent, wosided;
 
-    Zoning_Model::Zoning_Model(Spatial_Design::MS_Conformal& ms_conf, std::string type, unsigned int i)
+    zoning_model::zoning_model(spatial_design::MS_Conformal& ms_conf, std::string type, unsigned int i)
     {
         if (type == "zones")
         {
@@ -140,7 +140,7 @@ namespace BSO { namespace Visualisation
         pbsp = new random_bsp(polygons);
 
     }
-    Zoning_Model::~Zoning_Model()
+    zoning_model::~zoning_model()
     {
         delete pbsp;
 
@@ -153,12 +153,12 @@ namespace BSO { namespace Visualisation
             delete *lbit;
     }
 
-    const std::string Zoning_Model::get_description()
+    const std::string zoning_model::get_description()
     {
-        return std::string("Zoned Design " + std::to_string(design_ID));
+        return std::string("zoned Design " + std::to_string(design_ID));
     }
 
-    void Zoning_Model::render(const camera &cam) const
+    void zoning_model::render(const camera &cam) const
     {
         glPushAttrib(GL_ENABLE_BIT);
 
@@ -173,7 +173,7 @@ namespace BSO { namespace Visualisation
         glPopAttrib();
     }
 
-    bool Zoning_Model::key_pressed(int key)
+    bool zoning_model::key_pressed(int key)
     {
         switch (key)
         {
@@ -189,8 +189,8 @@ namespace BSO { namespace Visualisation
 	return false;
     }
 
-} // namespace Visualisation
-} // namespace BSO
+} // namespace visualization
+} // namespace bso
 
 
 #endif // ZONING_MODEL_HPP

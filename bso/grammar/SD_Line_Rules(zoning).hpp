@@ -5,12 +5,12 @@
 #include <vector>
 #include <cstdlib>
 
-#include <BSO/Spatial_Design/Conformation.hpp>
-#include <BSO/Structural_Design/Components/Component.hpp>
-#include <Read_Grammar_Settings.hpp>
-#include <SD_Rectangle_Rules.hpp>
+#include <bso/Spatial_Design/Conformation.hpp>
+#include <bso/Structural_Design/Components/Component.hpp>
+#include <bso/grammar/grammar.hpp>
+#include <bso/grammar/rule_set/sd_rule_set/sd_rectangle_rule.hpp>
 
-namespace BSO { namespace Grammar {
+namespace bso { namespace grammar {
 
 struct SD_Line_Rules
 {
@@ -199,7 +199,7 @@ void SD_Line_Rules::apply_rules()
         break;
     }
     }; // end of switch statement
-	
+
     if (m_line->get_vertex_ptr(0)->get_coords()(2) < 0.001 && m_line->get_vertex_ptr(1)->get_coords()(2) < 0.001 && rect_floor && m_line->get_constraint() == true)
     {
         apply_line_constraint(0);
@@ -221,8 +221,8 @@ void SD_Line_Rules::apply_line_constraint(unsigned int dof)
 } // apply_line_constraint
 
 
-} // namespace Grammar
-} // namespace BSO
+} // namespace grammar
+} // namespace bso
 
 
 #endif // SD_LINE_RULES_HPP

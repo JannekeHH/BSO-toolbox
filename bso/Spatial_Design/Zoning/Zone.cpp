@@ -1,7 +1,7 @@
 #ifndef ZONE_CPP
 #define ZONE_CPP
 
-namespace BSO { namespace Spatial_Design { namespace Zoning {
+namespace bso { namespace spatial_design { namespace Zoning {
 
 Zone::Zone(std::vector<Geometry::Cuboid*>& cuboids)
 {
@@ -416,7 +416,7 @@ Geometry::Vertex* Zone::get_vertex(unsigned int n)
 } // get vertex
 
 } // namespace Zoning
-} // namespace Spatial_Design
-} // namespace BSO
+} // namespace spatial_design
+} // namespace bso
 
 #endif //ZONE_CPP

@@ -115,8 +115,13 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="bso/building_physics/state_space_system.hpp" />
-		<Unit filename="bso/grammar/Read_Stabilize_Settings.hpp" />
-		<Unit filename="bso/grammar/Read_Zoning_Settings.hpp" />
+		<Unit filename="bso/grammar/AEI Grammar/Grammar_1.hpp" />
+		<Unit filename="bso/grammar/AEI Grammar/Grammar_2.hpp" />
+		<Unit filename="bso/grammar/AEI Grammar/Grammar_3.hpp" />
+		<Unit filename="bso/grammar/AEI Grammar/Grammar_4.hpp" />
+		<Unit filename="bso/grammar/AEI Grammar/Grammar_stabilize.hpp" />
+		<Unit filename="bso/grammar/AEI Grammar/Grammar_zoning.hpp" />
+		<Unit filename="bso/grammar/AEI Grammar/Grammar_zoning_stabilize.hpp" />
 		<Unit filename="bso/grammar/bp_grammars/default_bp_grammar.cpp">
 			<Option compile="0" />
 			<Option link="0" />
@@ -134,6 +139,8 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
+		<Unit filename="bso/grammar/read_stabilize_settings.hpp" />
+		<Unit filename="bso/grammar/read_zoning_settings.hpp" />
 		<Unit filename="bso/grammar/rule_set/bp_rule_set/bp_rectangle_rule.cpp">
 			<Option compile="0" />
 			<Option link="0" />
@@ -223,9 +230,6 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="bso/grammar/rule_set/vertex_property.hpp" />
-		<Unit filename="bso/grammar/sd_grammars/Grammar_stabilize.hpp" />
-		<Unit filename="bso/grammar/sd_grammars/Grammar_zoning.hpp" />
-		<Unit filename="bso/grammar/sd_grammars/Grammar_zoning_stabilize.hpp" />
 		<Unit filename="bso/grammar/sd_grammars/default_sd_grammar.cpp">
 			<Option compile="0" />
 			<Option link="0" />
@@ -242,16 +246,7 @@
 			<Option compile="0" />
 			<Option link="0" />
 		</Unit>
-		<Unit filename="bso/spatial_design/Zoning.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
-		<Unit filename="bso/spatial_design/Zoning.hpp" />
-		<Unit filename="bso/spatial_design/Zoning/Zone.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
-		<Unit filename="bso/spatial_design/Zoning/Zone.hpp" />
+		<Unit filename="bso/grammar/sd_line_rules(zoning).hpp" />
 		<Unit filename="bso/spatial_design/cf_building.hpp" />
 		<Unit filename="bso/spatial_design/conformal/cf_building_entity.cpp">
 			<Option compile="0" />
@@ -343,8 +338,16 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="bso/spatial_design/xml/xml_vector_translator.hpp" />
-		<Unit filename="bso/structural_design/Stabilization/Grid.hpp" />
-		<Unit filename="bso/structural_design/Stabilization/Stabilize.hpp" />
+		<Unit filename="bso/spatial_design/zoning.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/zoning.hpp" />
+		<Unit filename="bso/spatial_design/zoning/zone.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="bso/spatial_design/zoning/zone.hpp" />
 		<Unit filename="bso/structural_design/component/constraint.cpp">
 			<Option compile="0" />
 			<Option link="0" />
@@ -431,6 +434,8 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="bso/structural_design/sd_model.hpp" />
+		<Unit filename="bso/structural_design/stabilization/grid.hpp" />
+		<Unit filename="bso/structural_design/stabilization/stabilize.hpp" />
 		<Unit filename="bso/structural_design/topology_optimization/MMA.cpp">
 			<Option compile="0" />
 			<Option link="0" />
@@ -529,14 +534,14 @@
 		</Unit>
 		<Unit filename="bso/utilities/trim_and_cast.hpp" />
 		<Unit filename="bso/visualization/bsp/bsp.hpp" />
-		<Unit filename="bso/visualization/models/Stabilization_Model.hpp" />
-		<Unit filename="bso/visualization/models/Zoning_Model.hpp" />
 		<Unit filename="bso/visualization/models/bp_model.hpp" />
 		<Unit filename="bso/visualization/models/cf_building.hpp" />
 		<Unit filename="bso/visualization/models/model_base.hpp" />
 		<Unit filename="bso/visualization/models/ms_building.hpp" />
 		<Unit filename="bso/visualization/models/sc_building.hpp" />
 		<Unit filename="bso/visualization/models/sd_model.hpp" />
+		<Unit filename="bso/visualization/models/stabilization_model.hpp" />
+		<Unit filename="bso/visualization/models/zoning_model.hpp" />
 		<Unit filename="bso/visualization/user_interface/viewport.hpp" />
 		<Unit filename="bso/visualization/user_interface/viewportmanager.hpp" />
 		<Unit filename="bso/visualization/utilities/aabbox.hpp" />

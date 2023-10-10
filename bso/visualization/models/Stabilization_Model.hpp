@@ -5,24 +5,24 @@
 #define PI 3.14159265359
 #endif // PI
 
-#include <BSO/Structural_Design/SD_Analysis.hpp>
-#include <BSO/Structural_Design/Components/Component.hpp>
-#include <BSO/Visualisation/Model_Module/Model.hpp>
-#include <BSO/Visualisation/BSP_Module/BSP.hpp>
+#include <bso/structural_design/SD_Analysis.hpp> //fea.hpp?
+#include <bso/structural_design/Components/Component.hpp> //geometry.hpp?
+#include <bso/visualization/models/model_base.hpp>
+#include <bso/visualization/bsp/bsp.hpp>
 
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
 
-namespace BSO { namespace Visualisation
+namespace bso { namespace visualization
 {
 
-    class Stabilization_Model : public model
+    class stabilization_model : public model
     {
     public:
-        Stabilization_Model(Structural_Design::SD_Analysis_Vars*&, int vis_switch);
-        Stabilization_Model(Structural_Design::SD_Analysis_Vars*&, int vis_switch, bool ghosty);
-        ~Stabilization_Model();
+        stabilization_model(structural_design::SD_Analysis_Vars*&, int vis_switch);
+        stabilization_model(structural_design::SD_Analysis_Vars*&, int vis_switch, bool ghosty);
+        ~stabilization_model();
         void render(const camera &cam) const;
         const std::string get_description();
 
@@ -55,12 +55,12 @@ namespace BSO { namespace Visualisation
     // hh, bool translucent, wosided;
 
 
-    Stabilization_Model::Stabilization_Model(Structural_Design::SD_Analysis_Vars*& SDA, int vis_switch) : Stabilization_Model(SDA, vis_switch, false)
+    stabilization_model::stabilization_model(structural_design::SD_Analysis_Vars*& SDA, int vis_switch) : stabilization_model(SDA, vis_switch, false)
     {
         // default ghosty setting
     }
 
-    Stabilization_Model::Stabilization_Model(Structural_Design::SD_Analysis_Vars*& SDA, int vis_switch, bool ghosty)
+    stabilization_model::stabilization_model(structural_design::SD_Analysis_Vars*& SDA, int vis_switch, bool ghosty)
     {
 		lprops_t = rgba(0.0,0.0,0.0,0.1);
 
@@ -98,7 +98,7 @@ namespace BSO { namespace Visualisation
         { // vis unmeshed SD model
             for (unsigned int i = 0 ; i < SDA->get_component_count(); i++)
             {
-                Structural_Design::Components::Component* component_ptr = SDA->get_component_ptr(i);
+                structural_design::Components::Component* component_ptr = SDA->get_component_ptr(i);
                 if (!ghosty && component_ptr->is_ghost_component()) continue;
                 std::vector<Eigen::Vector3d> coords;
                 std::vector<vertex> vis_coords;
@@ -168,7 +168,7 @@ namespace BSO { namespace Visualisation
         pbsp = new random_bsp(polygons);
     }
 
-    Stabilization_Model::~Stabilization_Model()
+    stabilization_model::~stabilization_model()
     {
         delete pbsp;
 
@@ -182,12 +182,12 @@ namespace BSO { namespace Visualisation
 */
     }
 
-    const std::string Stabilization_Model::get_description()
+    const std::string stabilization_model::get_description()
     {
         return std::string("//Structural Design        Space: Next Step");
     }
 
-    void Stabilization_Model::render(const camera &cam) const
+    void stabilization_model::render(const camera &cam) const
     {
         glPushAttrib(GL_ENABLE_BIT);
 
@@ -202,7 +202,7 @@ namespace BSO { namespace Visualisation
         glPopAttrib();
     }
 
-    bool Stabilization_Model::key_pressed(int key)
+    bool stabilization_model::key_pressed(int key)
     {
         switch (key)
         {
@@ -246,8 +246,8 @@ namespace BSO { namespace Visualisation
 	return false;
     }
 
-} // namespace Visualisation
-} // namespace BSO
+} // namespace visualization
+} // namespace bso
 
 
 #endif // STABILIZATION_MODEL_HPP

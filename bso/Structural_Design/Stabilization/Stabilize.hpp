@@ -4,19 +4,19 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
-#include <BSO/Structural_Design/SD_Analysis.hpp>
-#include <BSO/Structural_Design/Components/Point_Comp.hpp>
-#include <BSO/Structural_Design/Stabilization/Grid.hpp>
-#include <BSO/Spatial_Design/Zoning.hpp>
-#include <Read_Stabilize_Settings.hpp>
+#include <bso/structural_design/SD_Analysis.hpp> //nog vervangen, fea?
+#include <bso/structural_design/component/point.hpp>
+#include <bso/structural_design/stabilization/grid.hpp>
+#include <bso/spatial_design/zoning.hpp>
+#include <bso/grammar/read_stabilize_settings.hpp>
 
-namespace BSO { namespace Structural_Design { namespace Stabilization
+namespace bso { namespace structural_design { namespace stabilization
 {
     struct zone
     {
-        Spatial_Design::Zoning::Zone* zone;
+        spatial_design::zoning::zone* zone;
 		std::vector<Components::Point*> points;
-		Grid* grid;
+		grid* grid;
         std::map<Components::Point*, std::vector<unsigned int> > points_grid;
 		std::map<std::vector<unsigned int>, Components::Point*> grid_points;
 		unsigned int x_size;
@@ -35,14 +35,14 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		bool stable_top = true;
     }; //zone
 
-	class Stabilize
+	class stabilize
     {
     private:
         SD_Analysis_Vars* m_SD;
-        Spatial_Design::MS_Conformal* m_CF;
-		Spatial_Design::Zoning::Zoned_Design* Zoned;
+        spatial_design::MS_Conformal* m_CF;
+		spatial_design::zoning::zoned_Design* zoned;
 		std::vector<zone> zones;
-        Grid* m_GR;
+        grid* m_GR;
         std::vector<std::vector<std::vector<coord*>>> grid;
 		std::vector<Components::Point*> m_points;
         std::map<Components::Point*, std::vector<unsigned int> > points_grid;
@@ -59,7 +59,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		std::vector<int> primary_floors;
 		std::vector<int> unstable_floors;
 
-		Grammar::Stabilize_Settings stabilize_settings;
+		Grammar::stabilize_Settings stabilize_settings;
 		bool remove_superfluous_trusses;
 		double singular;
 
@@ -69,17 +69,17 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		std::vector<Components::Point*> dof_uz;
         std::map<std::pair<Components::Point*, unsigned int>, double> singular_values;
 
-        std::map<Components::Point*, Spatial_Design::Geometry::Vertex*> point_vertex;
-		std::map<Spatial_Design::Geometry::Vertex*, Components::Point*> vertex_point;
-        std::map<Components::Point*, std::vector<Spatial_Design::Geometry::Rectangle*> > point_rectangles;
-		std::map<Spatial_Design::Geometry::Rectangle*, std::vector<Components::Point*> > rectangle_points;
+        std::map<Components::Point*, spatial_design::Geometry::Vertex*> point_vertex;
+		std::map<spatial_design::Geometry::Vertex*, Components::Point*> vertex_point;
+        std::map<Components::Point*, std::vector<spatial_design::Geometry::Rectangle*> > point_rectangles;
+		std::map<spatial_design::Geometry::Rectangle*, std::vector<Components::Point*> > rectangle_points;
 
 		std::vector<std::pair<Components::Point*, Components::Point*> > added_beams;
-		std::vector<Spatial_Design::Geometry::Rectangle*> primary_rectangles;
+		std::vector<spatial_design::Geometry::Rectangle*> primary_rectangles;
     public:
-		Stabilize(SD_Analysis_Vars*, Spatial_Design::MS_Conformal*); // ctor
-		Stabilize(SD_Analysis_Vars*, Spatial_Design::MS_Conformal*, Spatial_Design::Zoning::Zoned_Design*); // ctor
-		~Stabilize(); // dtor
+		stabilize(SD_Analysis_Vars*, spatial_design::MS_Conformal*); // ctor
+		stabilize(SD_Analysis_Vars*, spatial_design::MS_Conformal*, spatial_design::zoning::zoned_Design*); // ctor
+		~stabilize(); // dtor
 
 		// Functions called from grammar:
 		void update_free_dofs(std::map<Components::Point*, std::vector<unsigned int> >);
@@ -109,19 +109,19 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 
 		// Structural adjustments:
 		void add_truss(std::pair<Components::Point*, Components::Point*>);
-		void add_truss(Spatial_Design::Geometry::Rectangle*);
+		void add_truss(spatial_design::Geometry::Rectangle*);
 		void add_beams(Components::Point*, std::vector<Components::Point*>);
 		void add_beam(Components::Point*, Components::Point*);
 		void delete_superfluous_truss(Components::Point*, std::vector<Components::Point*>);
 		void delete_superfluous_trusses();
-		void delete_truss(Spatial_Design::Geometry::Rectangle*);
+		void delete_truss(spatial_design::Geometry::Rectangle*);
 
 		// Some practical functions:
 		void relate_points_geometry();
 		bool find_rectangle(Components::Point*, Components::Point*);
-		Spatial_Design::Geometry::Rectangle* get_rectangle(Components::Point*, Components::Point*);
+		spatial_design::Geometry::Rectangle* get_rectangle(Components::Point*, Components::Point*);
 		void update_singular_values();
-		std::vector<Components::Point*> get_zone_points(Spatial_Design::Zoning::Zone*);
+		std::vector<Components::Point*> get_zone_points(spatial_design::zoning::zone*);
 		void delete_primary_zone_dofs();
 		void get_floor_grid();
 		void get_floor_point();
@@ -130,13 +130,13 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		// Output:
 		void show_free_dofs();
 		void show_singulars();
-    }; // Stabilize
+    }; // stabilize
 
-    Stabilize::Stabilize(SD_Analysis_Vars* SD, Spatial_Design::MS_Conformal* CF)
+    stabilize::stabilize(SD_Analysis_Vars* SD, spatial_design::MS_Conformal* CF)
     {
         m_SD = SD;
         m_CF = CF;
-        m_GR = new Grid(m_SD);
+        m_GR = new grid(m_SD);
         grid = m_GR->get_grid();
         points_grid = m_GR->get_points_grid();
 		grid_points = m_GR->get_grid_points();
@@ -144,18 +144,18 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		y_size = m_GR->get_grid_size('y');
 		z_size = m_GR->get_grid_size('z');
         m_points = m_SD->get_points();
-	    Stabilize::relate_points_geometry();
-		stabilize_settings = Grammar::read_stabilize_settings("Settings/Stabilize_Settings.txt"); // read the stabilize settings file
+	    stabilize::relate_points_geometry();
+		stabilize_settings = Grammar::read_stabilize_settings("Settings/stabilize_Settings.txt"); // read the stabilize settings file
 		remove_superfluous_trusses = stabilize_settings.delete_superfluous_trusses;
 		singular = stabilize_settings.singular;
     } // ctor
 
-    Stabilize::Stabilize(SD_Analysis_Vars* SD, Spatial_Design::MS_Conformal* CF, Spatial_Design::Zoning::Zoned_Design* Zoned_Design)
+    stabilize::stabilize(SD_Analysis_Vars* SD, spatial_design::MS_Conformal* CF, spatial_design::zoning::zoned_Design* zoned_Design)
     {
         m_SD = SD;
         m_CF = CF;
-		Zoned = Zoned_Design;
-        m_GR = new Grid(m_SD);
+		zoned = zoned_Design;
+        m_GR = new grid(m_SD);
         grid = m_GR->get_grid();
         points_grid = m_GR->get_points_grid();
 		grid_points = m_GR->get_grid_points();
@@ -163,21 +163,21 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		y_size = m_GR->get_grid_size('y');
 		z_size = m_GR->get_grid_size('z');
         m_points = m_SD->get_points();
-	    Stabilize::relate_points_geometry();
-		stabilize_settings = Grammar::read_stabilize_settings("Settings/Stabilize_Settings.txt"); // read the stabilize settings file
+	    stabilize::relate_points_geometry();
+		stabilize_settings = Grammar::read_stabilize_settings("Settings/stabilize_Settings.txt"); // read the stabilize settings file
 		remove_superfluous_trusses = stabilize_settings.delete_superfluous_trusses;
 		singular = stabilize_settings.singular;
-		floors = Zoned->get_zoned_floors();
-		floor_coords = Zoned->get_floor_coords();
-		Stabilize::get_floor_grid();
-		Stabilize::get_floor_point();
+		floors = zoned->get_zoned_floors();
+		floor_coords = zoned->get_floor_coords();
+		stabilize::get_floor_grid();
+		stabilize::get_floor_point();
 
-		for (unsigned int i = 0; i < Zoned->get_zones().size(); i++)
+		for (unsigned int i = 0; i < zoned->get_zones().size(); i++)
 		{
 			zone temp;
-			temp.zone = Zoned->get_zones()[i];
-			temp.points = Stabilize::get_zone_points(temp.zone);
-			temp.grid = new Grid(temp.points);
+			temp.zone = zoned->get_zones()[i];
+			temp.points = stabilize::get_zone_points(temp.zone);
+			temp.grid = new grid(temp.points);
 	        temp.points_grid = temp.grid->get_points_grid();
 			temp.grid_points = temp.grid->get_grid_points();
 			temp.x_size = temp.grid->get_grid_size('x');
@@ -195,23 +195,23 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 			}
 			zones.push_back(temp);
 		}
-	    for (unsigned int i = 0; i < Zoned->get_rectangle_count(); i++)
+	    for (unsigned int i = 0; i < zoned->get_rectangle_count(); i++)
 	    {
 	        for (unsigned int j = 0; j < 4; j++) // 4 lines in rectangle
 	        {
-	        	Zoned->get_rectangle(i)->get_line_ptr(j)->tag_zoned();
+	        	zoned->get_rectangle(i)->get_line_ptr(j)->tag_zoned();
 	        }
 		}
 		std::sort(primary_floors.begin(), primary_floors.end());
-		Stabilize::check_floating_zones();
+		stabilize::check_floating_zones();
     } // ctor
 
-    Stabilize::~Stabilize()
+    stabilize::~stabilize()
     {
 
     }// dtor
 
-	void Stabilize::update_free_dofs(std::map<Components::Point*, std::vector<unsigned int> > points_with_free_dofs)
+	void stabilize::update_free_dofs(std::map<Components::Point*, std::vector<unsigned int> > points_with_free_dofs)
 	{
 		free_dofs = points_with_free_dofs;
 
@@ -263,7 +263,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		std::sort(unstable_floors.begin(), unstable_floors.end());
 	} // update_free_dofs()
 
-	void Stabilize::stabilize_free_dofs_zoned(unsigned int method)
+	void stabilize::stabilize_free_dofs_zoned(unsigned int method)
 	{
 
 		std::map<std::vector<unsigned int>, Components::Point*>::iterator it_1; // grid_points
@@ -280,7 +280,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
         {
         case 0: // Blind stabilization of all zones
 		{
-			//Stabilize::check_zone_dofs();
+			//stabilize::check_zone_dofs();
 			// check all zones for free-DOF-points without truss-keypoints and stabilize them with beams
 			for (unsigned int i = 0; i < zones.size(); i++)
 			{
@@ -295,8 +295,8 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 							{
 								dof = it_2->second[k];
 								point_dof = std::make_pair(point, dof);
-								keypoints = Stabilize::search_keypoints_truss(point_dof);
-								keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+								keypoints = stabilize::search_keypoints_truss(point_dof);
+								keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 								for (unsigned int j = 0; j < keypoints.size(); j++)
 								{
 									if (std::find(zones[i].points.begin(), zones[i].points.end(), keypoints[j]) == zones[i].points.end())
@@ -307,13 +307,13 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 								}
 								if (keypoints.size() == 0)
 			                    {
-			                        keypoints = Stabilize::search_keypoints_beam(point_dof);
-			                        keypoints = Stabilize::delete_used_keypoints_beam(point, keypoints);
+			                        keypoints = stabilize::search_keypoints_beam(point_dof);
+			                        keypoints = stabilize::delete_used_keypoints_beam(point, keypoints);
 			                        if (keypoints.size() > 0)
 									{
-			                            Stabilize::add_beams(point, keypoints);
+			                            stabilize::add_beams(point, keypoints);
 										if (remove_superfluous_trusses == true)
-											Stabilize::delete_superfluous_truss(point, keypoints);
+											stabilize::delete_superfluous_truss(point, keypoints);
 									}
 			                    }
 							}
@@ -324,7 +324,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 
 			for (unsigned int i = 0; i < zones.size(); i++)
 			{
-				// Stabilize vertical planes around corners
+				// stabilize vertical planes around corners
 				unsigned int z_grid = zones[i].z_size-1;
 				while (z_grid > 0)
 				{
@@ -346,23 +346,23 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 						dof = 0;
 						point_dof = std::make_pair(point, dof);
 
-						keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-						keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
-						keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-						keypoints = Stabilize::delete_external_keypoints(point, keypoints);
+						keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+						keypoints = stabilize::delete_structural_keypoints(point, keypoints);
+						keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+						keypoints = stabilize::delete_external_keypoints(point, keypoints);
 						if (keypoints.size() > 0)
 						{
 							dof_key = std::make_pair(point, keypoints.front());
-							Stabilize::add_truss(dof_key);
+							stabilize::add_truss(dof_key);
 						}
-						keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-						keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
-						keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-						keypoints = Stabilize::delete_external_keypoints(point, keypoints);
+						keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+						keypoints = stabilize::delete_structural_keypoints(point, keypoints);
+						keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+						keypoints = stabilize::delete_external_keypoints(point, keypoints);
 						if (keypoints.size() > 0)
 						{
 							dof_key = std::make_pair(point, keypoints.front());
-							Stabilize::add_truss(dof_key);
+							stabilize::add_truss(dof_key);
 						}
 					}
 					z_grid--;
@@ -384,14 +384,14 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 								point = it_1->second;
 								dof = 1;
 								point_dof = std::make_pair(point, dof);
-								keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
-								keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
-								keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-								keypoints = Stabilize::delete_external_keypoints(point, keypoints);
+								keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+								keypoints = stabilize::delete_structural_keypoints(point, keypoints);
+								keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+								keypoints = stabilize::delete_external_keypoints(point, keypoints);
 								if (keypoints.size() > 0)
 								{
 									dof_key = std::make_pair(point, keypoints.front());
-									Stabilize::add_truss(dof_key);
+									stabilize::add_truss(dof_key);
 								}
 							}
 						}
@@ -427,16 +427,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 1;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 	                                }
@@ -450,16 +450,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -473,16 +473,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -496,16 +496,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -519,16 +519,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -555,16 +555,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 1;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 	                                }
@@ -594,27 +594,27 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                dof = 0;
 	                                point_dof = std::make_pair(point, dof);
 
-	                                keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-                                    keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+                                    keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 									if (keypoints.size() > 0)
-										keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+										keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 									if (keypoints.size() > 0)
-										keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+										keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                if (keypoints.size() > 0)
 	                                {
 	                                    dof_key = std::make_pair(point, keypoints.front());
-	                                    Stabilize::add_truss(dof_key);
+	                                    stabilize::add_truss(dof_key);
 	                                }
-	                                keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-                                    keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+                                    keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 									if (keypoints.size() > 0)
-										keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+										keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 									if (keypoints.size() > 0)
-										keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+										keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                if (keypoints.size() > 0)
 	                                {
 	                                    dof_key = std::make_pair(point, keypoints.front());
-	                                    Stabilize::add_truss(dof_key);
+	                                    stabilize::add_truss(dof_key);
 	                                }
 	                            }
 	                            z_grid--;
@@ -624,7 +624,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 				}
 			}
 			m_SD->remesh();
-			Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+			stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
 
 			// check design for free-DOF-points without truss-keypoints and stabilize them with beams
 			for (unsigned int i = 0; i < zones.size(); i++)
@@ -641,20 +641,20 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 							{
 								dof = it_2->second[k];
 								point_dof = std::make_pair(point, dof);
-								keypoints = Stabilize::search_keypoints_truss(point_dof);
-								keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-								//keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+								keypoints = stabilize::search_keypoints_truss(point_dof);
+								keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+								//keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
 
 								if (keypoints.size() == 0)
 			                    {
-			                        keypoints = Stabilize::search_keypoints_beam(point_dof);
-			                        keypoints = Stabilize::delete_used_keypoints_beam(point, keypoints);
-									keypoints = Stabilize::delete_unzoned_keypoints_beam(point, keypoints);
+			                        keypoints = stabilize::search_keypoints_beam(point_dof);
+			                        keypoints = stabilize::delete_used_keypoints_beam(point, keypoints);
+									keypoints = stabilize::delete_unzoned_keypoints_beam(point, keypoints);
 			                        if (keypoints.size() > 0)
 									{
-			                            Stabilize::add_beams(point, keypoints);
+			                            stabilize::add_beams(point, keypoints);
 										if (remove_superfluous_trusses == true)
-											Stabilize::delete_superfluous_truss(point, keypoints);
+											stabilize::delete_superfluous_truss(point, keypoints);
 									}
 			                    }
 							}
@@ -665,7 +665,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 			}
 
 			m_SD->remesh();
-			Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+			stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
 			for (unsigned int i = 0; i < zones.size(); i++)
 			{
 				if (zones[i].stable == false && zones[i].primary == false)
@@ -680,20 +680,20 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 							{
 								dof = it_2->second[k];
 								point_dof = std::make_pair(point, dof);
-								keypoints = Stabilize::search_keypoints_truss(point_dof);
-								keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-								//keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+								keypoints = stabilize::search_keypoints_truss(point_dof);
+								keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+								//keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
 
 								if (keypoints.size() == 0)
 			                    {
-			                        keypoints = Stabilize::search_keypoints_beam(point_dof);
-			                        keypoints = Stabilize::delete_used_keypoints_beam(point, keypoints);
-									keypoints = Stabilize::delete_unzoned_keypoints_beam(point, keypoints);
+			                        keypoints = stabilize::search_keypoints_beam(point_dof);
+			                        keypoints = stabilize::delete_used_keypoints_beam(point, keypoints);
+									keypoints = stabilize::delete_unzoned_keypoints_beam(point, keypoints);
 			                        if (keypoints.size() > 0)
 									{
-			                            Stabilize::add_beams(point, keypoints);
+			                            stabilize::add_beams(point, keypoints);
 										if (remove_superfluous_trusses == true)
-											Stabilize::delete_superfluous_truss(point, keypoints);
+											stabilize::delete_superfluous_truss(point, keypoints);
 									}
 			                    }
 							}
@@ -731,16 +731,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 1;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 	                                }
@@ -754,16 +754,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -777,16 +777,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -800,16 +800,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -823,16 +823,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -859,16 +859,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 1;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 	                                }
@@ -898,27 +898,27 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                dof = 0;
 	                                point_dof = std::make_pair(point, dof);
 
-	                                keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-                                    keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+                                    keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 									if (keypoints.size() > 0)
-										keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+										keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 									if (keypoints.size() > 0)
-										keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+										keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                if (keypoints.size() > 0)
 	                                {
 	                                    dof_key = std::make_pair(point, keypoints.front());
-	                                    Stabilize::add_truss(dof_key);
+	                                    stabilize::add_truss(dof_key);
 	                                }
-	                                keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-                                    keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+                                    keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 									if (keypoints.size() > 0)
-										keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+										keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 									if (keypoints.size() > 0)
-										keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+										keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                if (keypoints.size() > 0)
 	                                {
 	                                    dof_key = std::make_pair(point, keypoints.front());
-	                                    Stabilize::add_truss(dof_key);
+	                                    stabilize::add_truss(dof_key);
 	                                }
 	                            }
 	                            z_grid--;
@@ -928,7 +928,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 				}
 			}
 			m_SD->remesh();
-			Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+			stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
 
 			for (unsigned int p = 0; p < floors.size(); p++)
 			{
@@ -951,16 +951,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                                         point = it_1->second;
                                         dof = 1;
                                         point_dof = std::make_pair(point, dof);
-                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
-                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 										if (keypoints.size() > 0)
-											keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+											keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 										if (keypoints.size() > 0)
-											keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+											keypoints = stabilize::delete_structural_keypoints(point, keypoints);
                                         if (keypoints.size() > 0)
                                         {
                                             dof_key = std::make_pair(point, keypoints.front());
-                                            Stabilize::add_truss(dof_key);
+                                            stabilize::add_truss(dof_key);
                                         }
                                     }
 	                                if (zones[i].north_floating == true && m == zones[i].y_size-1)
@@ -973,16 +973,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -996,16 +996,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -1019,16 +1019,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -1042,16 +1042,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 2;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+												keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 											if (keypoints.size() > 0)
-												keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+												keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 									}
@@ -1059,7 +1059,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                             }
                         } // bottom
 						//m_SD->remesh();
-						//Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+						//stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
                     }
                     if (zones[i].primary == false && zones[i].floor_above == floors[p] && zones[i].stable_top == false)
                     {
@@ -1081,16 +1081,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                                         point = it_1->second;
                                         dof = 1;
                                         point_dof = std::make_pair(point, dof);
-                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
-                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 										if (keypoints.size() > 0)
-											keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+											keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 										if (keypoints.size() > 0)
-											keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+											keypoints = stabilize::delete_structural_keypoints(point, keypoints);
                                         if (keypoints.size() > 0)
                                         {
                                             dof_key = std::make_pair(point, keypoints.front());
-                                            Stabilize::add_truss(dof_key);
+                                            stabilize::add_truss(dof_key);
                                         }
                                     }
                                 }
@@ -1099,12 +1099,12 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 						z_grid--;
                         } // top
 						//m_SD->remesh();
-						//Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+						//stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
 					}
                 } // zones
 			} // floors
 			m_SD->remesh();
-			Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+			stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
 
 			for (unsigned int p = 0; p < floors.size(); p++)
 			{
@@ -1134,27 +1134,27 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		                        dof = 0;
 		                        point_dof = std::make_pair(point, dof);
 
-		                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-		                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+		                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+		                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 								if (keypoints.size() > 0)
-									keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+									keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 								if (keypoints.size() > 0)
-									keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+									keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 		                        if (keypoints.size() > 0)
 		                        {
 		                            dof_key = std::make_pair(point, keypoints.front());
-		                            Stabilize::add_truss(dof_key);
+		                            stabilize::add_truss(dof_key);
 		                        }
-		                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-		                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+		                        keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+		                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
 								if (keypoints.size() > 0)
-									keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+									keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 								if (keypoints.size() > 0)
-									keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+									keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 		                        if (keypoints.size() > 0)
 		                        {
 		                            dof_key = std::make_pair(point, keypoints.front());
-		                            Stabilize::add_truss(dof_key);
+		                            stabilize::add_truss(dof_key);
 		                        }
 		                    }
 		                    z_grid--;
@@ -1162,7 +1162,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		            }
                 } // zones
 				m_SD->remesh();
-				Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+				stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
             } // floors
 
 			// check design for free-DOF-points without truss-keypoints and stabilize them with beams
@@ -1180,20 +1180,20 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 							{
 								dof = it_2->second[k];
 								point_dof = std::make_pair(point, dof);
-								keypoints = Stabilize::search_keypoints_truss(point_dof);
-								keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-								//keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+								keypoints = stabilize::search_keypoints_truss(point_dof);
+								keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+								//keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
 
 								if (keypoints.size() == 0)
 			                    {
-			                        keypoints = Stabilize::search_keypoints_beam(point_dof);
-			                        keypoints = Stabilize::delete_used_keypoints_beam(point, keypoints);
-									keypoints = Stabilize::delete_unzoned_keypoints_beam(point, keypoints);
+			                        keypoints = stabilize::search_keypoints_beam(point_dof);
+			                        keypoints = stabilize::delete_used_keypoints_beam(point, keypoints);
+									keypoints = stabilize::delete_unzoned_keypoints_beam(point, keypoints);
 			                        if (keypoints.size() > 0)
 									{
-			                            Stabilize::add_beams(point, keypoints);
+			                            stabilize::add_beams(point, keypoints);
 										if (remove_superfluous_trusses == true)
-											Stabilize::delete_superfluous_truss(point, keypoints);
+											stabilize::delete_superfluous_truss(point, keypoints);
 									}
 			                    }
 							}
@@ -1204,7 +1204,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 			}
 
 			m_SD->remesh();
-			Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+			stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
 			for (unsigned int i = 0; i < zones.size(); i++)
 			{
 				if (zones[i].stable == false && zones[i].primary == false)
@@ -1219,20 +1219,20 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 							{
 								dof = it_2->second[k];
 								point_dof = std::make_pair(point, dof);
-								keypoints = Stabilize::search_keypoints_truss(point_dof);
-								keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-								//keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+								keypoints = stabilize::search_keypoints_truss(point_dof);
+								keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+								//keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
 
 								if (keypoints.size() == 0)
 			                    {
-			                        keypoints = Stabilize::search_keypoints_beam(point_dof);
-			                        keypoints = Stabilize::delete_used_keypoints_beam(point, keypoints);
-									keypoints = Stabilize::delete_unzoned_keypoints_beam(point, keypoints);
+			                        keypoints = stabilize::search_keypoints_beam(point_dof);
+			                        keypoints = stabilize::delete_used_keypoints_beam(point, keypoints);
+									keypoints = stabilize::delete_unzoned_keypoints_beam(point, keypoints);
 			                        if (keypoints.size() > 0)
 									{
-			                            Stabilize::add_beams(point, keypoints);
+			                            stabilize::add_beams(point, keypoints);
 										if (remove_superfluous_trusses == true)
-											Stabilize::delete_superfluous_truss(point, keypoints);
+											stabilize::delete_superfluous_truss(point, keypoints);
 									}
 			                    }
 							}
@@ -1250,19 +1250,19 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 				{
 					dof = it_2->second[k];
 					point_dof = std::make_pair(point, dof);
-					keypoints = Stabilize::search_keypoints_truss(point_dof);
-					keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
+					keypoints = stabilize::search_keypoints_truss(point_dof);
+					keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
 
 					if (keypoints.size() == 0)
                     {
-                        keypoints = Stabilize::search_keypoints_beam(point_dof);
-                        keypoints = Stabilize::delete_used_keypoints_beam(point, keypoints);
-						keypoints = Stabilize::delete_unzoned_keypoints_beam(point, keypoints);
+                        keypoints = stabilize::search_keypoints_beam(point_dof);
+                        keypoints = stabilize::delete_used_keypoints_beam(point, keypoints);
+						keypoints = stabilize::delete_unzoned_keypoints_beam(point, keypoints);
                         if (keypoints.size() > 0)
 						{
-                            Stabilize::add_beams(point, keypoints);
+                            stabilize::add_beams(point, keypoints);
 							if (remove_superfluous_trusses == true)
-								Stabilize::delete_superfluous_truss(point, keypoints);
+								stabilize::delete_superfluous_truss(point, keypoints);
 						}
                     }
 				}
@@ -1296,21 +1296,21 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 1;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
-	                                        keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
-	                                        keypoints = Stabilize::delete_external_keypoints(point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+	                                        keypoints = stabilize::delete_structural_keypoints(point, keypoints);
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::delete_external_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 	                                }
 	                            }
 	                        } // top
 							m_SD->remesh();
-							Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+							stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
 	                    }
 					}
 				}
@@ -1345,29 +1345,29 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                dof = 0;
 	                                point_dof = std::make_pair(point, dof);
 
-	                                keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-	                                keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
-	                                keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
-	                                keypoints = Stabilize::delete_external_keypoints(point, keypoints);
+	                                keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+	                                keypoints = stabilize::delete_structural_keypoints(point, keypoints);
+	                                keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                keypoints = stabilize::delete_external_keypoints(point, keypoints);
 	                                if (keypoints.size() > 0)
 	                                {
 	                                    dof_key = std::make_pair(point, keypoints.front());
-	                                    Stabilize::add_truss(dof_key);
+	                                    stabilize::add_truss(dof_key);
 	                                }
-	                                keypoints = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-	                                keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
-	                                keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
-	                                keypoints = Stabilize::delete_external_keypoints(point, keypoints);
+	                                keypoints = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+	                                keypoints = stabilize::delete_structural_keypoints(point, keypoints);
+	                                keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                keypoints = stabilize::delete_external_keypoints(point, keypoints);
 	                                if (keypoints.size() > 0)
 	                                {
 	                                    dof_key = std::make_pair(point, keypoints.front());
-	                                    Stabilize::add_truss(dof_key);
+	                                    stabilize::add_truss(dof_key);
 	                                }
 	                            }
 	                            z_grid--;
 	                        } // vertical
 							m_SD->remesh();
-							Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+							stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
 	                    }
 					}
 				}
@@ -1395,21 +1395,21 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 	                                        point = it_1->second;
 	                                        dof = 1;
 	                                        point_dof = std::make_pair(point, dof);
-	                                        keypoints = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
-	                                        keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
-	                                        keypoints = Stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
-	                                        keypoints = Stabilize::delete_external_keypoints(point, keypoints);
+	                                        keypoints = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+	                                        keypoints = stabilize::delete_structural_keypoints(point, keypoints);
+	                                        keypoints = stabilize::delete_unzoned_keypoints(zones[i], point, keypoints);
+	                                        keypoints = stabilize::delete_external_keypoints(point, keypoints);
 	                                        if (keypoints.size() > 0)
 	                                        {
 	                                            dof_key = std::make_pair(point, keypoints.front());
-	                                            Stabilize::add_truss(dof_key);
+	                                            stabilize::add_truss(dof_key);
 	                                        }
 	                                    }
 	                                }
 	                            }
 	                        } // bottom
 							m_SD->remesh();
-							Stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
+							stabilize::update_free_dofs(m_SD->get_zoned_points_with_free_dofs(singular));
 	                    }
 					}
 				}
@@ -1423,7 +1423,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		} // switch
 	}
 
-	bool Stabilize::stabilize_free_dofs(unsigned int method)
+	bool stabilize::stabilize_free_dofs(unsigned int method)
 	{
 		bool stabilization_possible = true;
 
@@ -1471,15 +1471,15 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 							{
 								dof = it_2->second[i];
 								point_dof = std::make_pair(point, dof);
-								keypoints = Stabilize::search_keypoints_truss(point_dof);
+								keypoints = stabilize::search_keypoints_truss(point_dof);
 								if (keypoints.size() > 0)
 								{
 									// delete and order keypoints:
-									//keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-									keypoints = Stabilize::delete_intersecting_keypoints(point, keypoints);
-									keypoints = Stabilize::delete_external_keypoints(point, keypoints);
-									keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
-									keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+									//keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+									keypoints = stabilize::delete_intersecting_keypoints(point, keypoints);
+									keypoints = stabilize::delete_external_keypoints(point, keypoints);
+									keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+									keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 
 									if (keypoints.size() > 0)
 									{
@@ -1502,7 +1502,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 			}
 			if (found == true)
 			{
-				Stabilize::add_truss(dof_key);
+				stabilize::add_truss(dof_key);
 			}
 
 			else // Structure cannot be stabilized by truss addition; delete trusses/add beams
@@ -1527,13 +1527,13 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                                 {
                                     dof = it_2->second[i];
                                     point_dof = std::make_pair(point, dof);
-                                    keypoints = Stabilize::search_keypoints_beam(point_dof);
+                                    keypoints = stabilize::search_keypoints_beam(point_dof);
                                    if (keypoints.size() > 0)
                                     {
                                         // delete and order keypoints:
-                                        //keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
-										keypoints = Stabilize::delete_used_keypoints_beam(point, keypoints);
-										//keypoints = Stabilize::delete_unzoned_keypoints_beam(point, keypoints);
+                                        //keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+										keypoints = stabilize::delete_used_keypoints_beam(point, keypoints);
+										//keypoints = stabilize::delete_unzoned_keypoints_beam(point, keypoints);
 
                                         if (keypoints.size() > 0)
                                         {
@@ -1556,7 +1556,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                 }
                 if (found == true)
                 {
-                    Stabilize::add_beams(point, keypoints);
+                    stabilize::add_beams(point, keypoints);
                 }
 				else
 				{
@@ -1564,7 +1564,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		        	stabilization_possible = false;
 				}
 				if (remove_superfluous_trusses == true)
-					Stabilize::delete_superfluous_trusses();
+					stabilize::delete_superfluous_trusses();
             }
 			break;
 		} // case 0
@@ -1578,7 +1578,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		Truss addition, Beam addition/substitution
 		*/
 		{
-			//Stabilize::delete_primary_zone_dofs();
+			//stabilize::delete_primary_zone_dofs();
 			for (unsigned int n = 0; n < z_size; n++)
             {
                 for (unsigned int l = 0; l < x_size; l++)
@@ -1597,15 +1597,15 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 							{
 								dof = it_2->second[i];
 								point_dof = std::make_pair(point, dof);
-								keypoints = Stabilize::search_keypoints_truss(point_dof);
+								keypoints = stabilize::search_keypoints_truss(point_dof);
 								if (keypoints.size() > 0)
 								{
 									// delete and order keypoints:
-									keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-									//keypoints = Stabilize::delete_intersecting_keypoints(point, keypoints);
-									//keypoints = Stabilize::delete_external_keypoints(point, keypoints);
-									keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
-									keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+									keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+									//keypoints = stabilize::delete_intersecting_keypoints(point, keypoints);
+									//keypoints = stabilize::delete_external_keypoints(point, keypoints);
+									keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+									keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 
 									if (keypoints.size() > 0)
 									{
@@ -1628,7 +1628,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 			}
 			if (found == true)
 			{
-				Stabilize::add_truss(dof_key);
+				stabilize::add_truss(dof_key);
 			}
 
 			else // Structure cannot be stabilized by truss addition; delete trusses/add beams
@@ -1651,13 +1651,13 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                                 {
                                     dof = it_2->second[i];
                                     point_dof = std::make_pair(point, dof);
-                                    keypoints = Stabilize::search_keypoints_beam(point_dof);
+                                    keypoints = stabilize::search_keypoints_beam(point_dof);
                                    if (keypoints.size() > 0)
                                     {
                                         // delete and order keypoints:
-                                        //keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
-										keypoints = Stabilize::delete_used_keypoints_beam(point, keypoints);
-										keypoints = Stabilize::delete_unzoned_keypoints_beam(point, keypoints);
+                                        //keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+										keypoints = stabilize::delete_used_keypoints_beam(point, keypoints);
+										keypoints = stabilize::delete_unzoned_keypoints_beam(point, keypoints);
 
                                         if (keypoints.size() > 0)
                                         {
@@ -1680,19 +1680,19 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                 }
                 if (found == true)
                 {
-                    Stabilize::add_beams(point, keypoints);
+                    stabilize::add_beams(point, keypoints);
                 }
 				else
 				{
 		        	stabilization_possible = false;
-					std::cout << "Zones can not be stabilized (end of zone point iteration)" << std::endl;
+					std::cout << "zones can not be stabilized (end of zone point iteration)" << std::endl;
 				}
 				if (remove_superfluous_trusses == true)
-					Stabilize::delete_superfluous_trusses();
+					stabilize::delete_superfluous_trusses();
             }
 			break;
 		} // case 1
-		
+
         case 2:
 		/*
 		Sequence:
@@ -1702,7 +1702,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		Truss addition, Beam addition/substitution
 		*/
 		{
-			//Stabilize::delete_primary_zone_dofs();
+			//stabilize::delete_primary_zone_dofs();
 			for (int N = z_size-1; N >= 0; N--)
             {
                 for (unsigned int l = 0; l < x_size; l++)
@@ -1721,15 +1721,15 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 							{
 								dof = it_2->second[i];
 								point_dof = std::make_pair(point, dof);
-								keypoints = Stabilize::search_keypoints_truss(point_dof);
+								keypoints = stabilize::search_keypoints_truss(point_dof);
 								if (keypoints.size() > 0)
 								{
 									// delete and order keypoints:
-									keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-									//keypoints = Stabilize::delete_intersecting_keypoints(point, keypoints);
-									//keypoints = Stabilize::delete_external_keypoints(point, keypoints);
-									keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
-									keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+									keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+									//keypoints = stabilize::delete_intersecting_keypoints(point, keypoints);
+									//keypoints = stabilize::delete_external_keypoints(point, keypoints);
+									keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+									keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 
 									if (keypoints.size() > 0)
 									{
@@ -1752,7 +1752,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 			}
 			if (found == true)
 			{
-				Stabilize::add_truss(dof_key);
+				stabilize::add_truss(dof_key);
 			}
 
 			else // Structure cannot be stabilized by truss addition; delete trusses/add beams
@@ -1775,13 +1775,13 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                                 {
                                     dof = it_2->second[i];
                                     point_dof = std::make_pair(point, dof);
-                                    keypoints = Stabilize::search_keypoints_beam(point_dof);
+                                    keypoints = stabilize::search_keypoints_beam(point_dof);
                                    if (keypoints.size() > 0)
                                     {
                                         // delete and order keypoints:
-                                        //keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
-										keypoints = Stabilize::delete_used_keypoints_beam(point, keypoints);
-										keypoints = Stabilize::delete_unzoned_keypoints_beam(point, keypoints);
+                                        //keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+										keypoints = stabilize::delete_used_keypoints_beam(point, keypoints);
+										keypoints = stabilize::delete_unzoned_keypoints_beam(point, keypoints);
 
                                         if (keypoints.size() > 0)
                                         {
@@ -1804,19 +1804,19 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                 }
                 if (found == true)
                 {
-                    Stabilize::add_beams(point, keypoints);
+                    stabilize::add_beams(point, keypoints);
                 }
 				else
 				{
 		        	stabilization_possible = false;
-					std::cout << "Zones can not be stabilized (end of zone point iteration)" << std::endl;
+					std::cout << "zones can not be stabilized (end of zone point iteration)" << std::endl;
 				}
 				if (remove_superfluous_trusses == true)
-					Stabilize::delete_superfluous_trusses();
+					stabilize::delete_superfluous_trusses();
             }
 			break;
 		} // case 2
-		
+
         case 3:
 		/*
 		Sequence:
@@ -1846,15 +1846,15 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 							{
 								dof = it_2->second[i];
 								point_dof = std::make_pair(point, dof);
-								keypoints = Stabilize::search_keypoints_truss(point_dof);
+								keypoints = stabilize::search_keypoints_truss(point_dof);
 								if (keypoints.size() > 0)
 								{
 									// delete and order keypoints:
-									keypoints = Stabilize::delete_unzoned_keypoints(point, keypoints);
-									//keypoints = Stabilize::delete_intersecting_keypoints(point, keypoints);
-									keypoints = Stabilize::delete_external_keypoints(point, keypoints);
-									keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
-									keypoints = Stabilize::delete_structural_keypoints(point, keypoints);
+									keypoints = stabilize::delete_unzoned_keypoints(point, keypoints);
+									//keypoints = stabilize::delete_intersecting_keypoints(point, keypoints);
+									keypoints = stabilize::delete_external_keypoints(point, keypoints);
+									keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+									keypoints = stabilize::delete_structural_keypoints(point, keypoints);
 
 									if (keypoints.size() > 0)
 									{
@@ -1877,7 +1877,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 			}
 			if (found == true)
 			{
-				Stabilize::add_truss(dof_key);
+				stabilize::add_truss(dof_key);
 			}
 
 			else // Structure cannot be stabilized by truss addition; delete trusses/add beams
@@ -1902,13 +1902,13 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                                 {
                                     dof = it_2->second[i];
                                     point_dof = std::make_pair(point, dof);
-                                    keypoints = Stabilize::search_keypoints_beam(point_dof);
+                                    keypoints = stabilize::search_keypoints_beam(point_dof);
                                    if (keypoints.size() > 0)
                                     {
                                         // delete and order keypoints:
-                                        //keypoints = Stabilize::delete_free_dof_keypoints(point, dof, keypoints);
-										keypoints = Stabilize::delete_used_keypoints_beam(point, keypoints);
-										//keypoints = Stabilize::delete_unzoned_keypoints_beam(point, keypoints);
+                                        //keypoints = stabilize::delete_free_dof_keypoints(point, dof, keypoints);
+										keypoints = stabilize::delete_used_keypoints_beam(point, keypoints);
+										//keypoints = stabilize::delete_unzoned_keypoints_beam(point, keypoints);
 
                                         if (keypoints.size() > 0)
                                         {
@@ -1931,7 +1931,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                 }
                 if (found == true)
                 {
-                    Stabilize::add_beams(point, keypoints);
+                    stabilize::add_beams(point, keypoints);
                 }
 				else
 				{
@@ -1939,7 +1939,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		        	stabilization_possible = false;
 				}
 				if (remove_superfluous_trusses == true)
-					Stabilize::delete_superfluous_trusses();
+					stabilize::delete_superfluous_trusses();
             }
 			break;
 		} // case 3
@@ -1951,13 +1951,13 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return stabilization_possible;
 	} // stabilize_free_dofs()
 
-    std::vector<Components::Point*> Stabilize::delete_intersecting_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
+    std::vector<Components::Point*> stabilize::delete_intersecting_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
     {
         std::vector<Components::Point*> temp_keypoints;
 		for (unsigned int i = 0; i < keypoints.size(); i++)
 		{
 			Components::Point* keypoint = keypoints[i];
-			if (Stabilize::find_rectangle(point, keypoint) == true && Stabilize::get_rectangle(point, keypoint)->get_surface_count() != 0)
+			if (stabilize::find_rectangle(point, keypoint) == true && stabilize::get_rectangle(point, keypoint)->get_surface_count() != 0)
 			{
                 temp_keypoints.push_back(keypoint);
 			}
@@ -1965,13 +1965,13 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return temp_keypoints;
     } // delete_intersecting_keypoints()
 
-	std::vector<Components::Point*> Stabilize::delete_external_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
+	std::vector<Components::Point*> stabilize::delete_external_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
 	{
         std::vector<Components::Point*> temp_keypoints;
 		for (unsigned int i = 0; i < keypoints.size(); i++)
 		{
 			Components::Point* keypoint = keypoints[i];
-			if (Stabilize::find_rectangle(point, keypoint) == true)
+			if (stabilize::find_rectangle(point, keypoint) == true)
 			{
                 temp_keypoints.push_back(keypoint);
 			}
@@ -1979,17 +1979,17 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return temp_keypoints;
 	} // delete_external_keypoints()
 
-	std::vector<Components::Point*> Stabilize::delete_inside_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
+	std::vector<Components::Point*> stabilize::delete_inside_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
 	{
         std::vector<Components::Point*> temp_keypoints;
 		for (unsigned int i = 0; i < keypoints.size(); i++)
 		{
 			Components::Point* keypoint = keypoints[i];
-			if (Stabilize::find_rectangle(point, keypoint) == true && Stabilize::get_rectangle(point, keypoint)->get_surface_count() == 1)
+			if (stabilize::find_rectangle(point, keypoint) == true && stabilize::get_rectangle(point, keypoint)->get_surface_count() == 1)
 			{
                 temp_keypoints.push_back(keypoint);
 			}
-			else if (Stabilize::find_rectangle(point, keypoint) == false)
+			else if (stabilize::find_rectangle(point, keypoint) == false)
 			{
                 temp_keypoints.push_back(keypoint);
 			}
@@ -1997,13 +1997,13 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return temp_keypoints;
 	} // delete_inside_keypoints()
 
-	std::vector<Components::Point*> Stabilize::delete_unzoned_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
+	std::vector<Components::Point*> stabilize::delete_unzoned_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
     {
         std::vector<Components::Point*> temp_keypoints;
 		for (unsigned int i = 0; i < keypoints.size(); i++)
 		{
 			Components::Point* keypoint = keypoints[i];
-			if (Stabilize::find_rectangle(point, keypoint) == true && Stabilize::get_rectangle(point, keypoint)->get_zoned() == true)
+			if (stabilize::find_rectangle(point, keypoint) == true && stabilize::get_rectangle(point, keypoint)->get_zoned() == true)
 			{
                 temp_keypoints.push_back(keypoint);
 			}
@@ -2011,7 +2011,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return temp_keypoints;
     } // delete_unzoned_keypoints()
 
-	std::vector<Components::Point*> Stabilize::delete_unzoned_keypoints(zone temp_zone, Components::Point* point, std::vector<Components::Point*> keypoints)
+	std::vector<Components::Point*> stabilize::delete_unzoned_keypoints(zone temp_zone, Components::Point* point, std::vector<Components::Point*> keypoints)
     {
         std::vector<Components::Point*> temp_keypoints;
 		for (unsigned int i = 0; i < keypoints.size(); i++)
@@ -2025,17 +2025,17 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return temp_keypoints;
     } // delete_unzoned_keypoints(zone)
 
-	std::vector<Components::Point*> Stabilize::delete_structural_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
+	std::vector<Components::Point*> stabilize::delete_structural_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
     {
         std::vector<Components::Point*> temp_keypoints;
 		for (unsigned int i = 0; i < keypoints.size(); i++)
 		{
 			Components::Point* keypoint = keypoints[i];
-			if (Stabilize::find_rectangle(point, keypoint) == true && Stabilize::get_rectangle(point, keypoint)->is_structural() == false)
+			if (stabilize::find_rectangle(point, keypoint) == true && stabilize::get_rectangle(point, keypoint)->is_structural() == false)
 			{
                 temp_keypoints.push_back(keypoint);
 			}
-			else if (Stabilize::find_rectangle(point, keypoint) == false)
+			else if (stabilize::find_rectangle(point, keypoint) == false)
 			{
                 temp_keypoints.push_back(keypoint);
 			}
@@ -2043,7 +2043,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return temp_keypoints;
     } // delete_structural_keypoints()
 
-    std::vector<Components::Point*> Stabilize::delete_free_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
+    std::vector<Components::Point*> stabilize::delete_free_keypoints(Components::Point* point, std::vector<Components::Point*> keypoints)
     {
 		std::vector<Components::Point*> temp_keypoints;
 		std::map<Components::Point*, std::vector<unsigned int> >::iterator it_1; // free_dofs
@@ -2059,7 +2059,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return temp_keypoints;
     } // delete_free_keypoints()
 
-	std::vector<Components::Point*> Stabilize::delete_free_dof_keypoints(Components::Point* point, unsigned int dof, std::vector<Components::Point*> keypoints)
+	std::vector<Components::Point*> stabilize::delete_free_dof_keypoints(Components::Point* point, unsigned int dof, std::vector<Components::Point*> keypoints)
     {
 		std::vector<Components::Point*> temp_keypoints;
 		std::map<Components::Point*, std::vector<unsigned int> >::iterator it_1; // free_dofs
@@ -2083,9 +2083,9 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return temp_keypoints;
     } // delete_free_dof_keypoints()
 
-    std::vector<Components::Point*> Stabilize::order_keypoints_singular(Components::Point* point, unsigned int dof, std::vector<Components::Point*> keypoints)
+    std::vector<Components::Point*> stabilize::order_keypoints_singular(Components::Point* point, unsigned int dof, std::vector<Components::Point*> keypoints)
     {
-        Stabilize::update_singular_values();
+        stabilize::update_singular_values();
 		std::map<std::pair<Components::Point*, unsigned int>, double>::iterator it_1; // singular_values
         std::map<double, Components::Point*, std::greater<double> > key_singulars;
 		std::map<double, Components::Point*>::iterator it_2; //key_singulars
@@ -2113,7 +2113,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return keypoints;
     } // order_keypoints_singular();
 
-    std::vector<Components::Point*> Stabilize::order_keypoints_internal(Components::Point* point, std::vector<Components::Point*> keypoints)
+    std::vector<Components::Point*> stabilize::order_keypoints_internal(Components::Point* point, std::vector<Components::Point*> keypoints)
     {
         std::vector<Components::Point*> internal_keypoints;
 		std::vector<Components::Point*> external_keypoints;
@@ -2121,7 +2121,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		for (unsigned int i = 0; i < keypoints.size(); i++)
 		{
 			Components::Point* keypoint = keypoints[i];
-			if (Stabilize::find_rectangle(point, keypoint) == true)
+			if (stabilize::find_rectangle(point, keypoint) == true)
 				internal_keypoints.push_back(keypoint);
 			else
 				external_keypoints.push_back(keypoint);
@@ -2132,7 +2132,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return keypoints;
     } // order_keypoints_internal()
 
-    std::vector<Components::Point*> Stabilize::order_keypoints_enveloppe(Components::Point* point, std::vector<Components::Point*> keypoints)
+    std::vector<Components::Point*> stabilize::order_keypoints_enveloppe(Components::Point* point, std::vector<Components::Point*> keypoints)
     {
         std::vector<Components::Point*> inside_keypoints;
 		std::vector<Components::Point*> enveloppe_keypoints;
@@ -2140,7 +2140,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		for (unsigned int i = 0; i < keypoints.size(); i++)
 		{
 			Components::Point* keypoint = keypoints[i];
-			if (Stabilize::find_rectangle(point, keypoint) == true && Stabilize::get_rectangle(point, keypoint)->get_surface_count() == 1)
+			if (stabilize::find_rectangle(point, keypoint) == true && stabilize::get_rectangle(point, keypoint)->get_surface_count() == 1)
 				enveloppe_keypoints.push_back(keypoint);
 			else
 				inside_keypoints.push_back(keypoint);
@@ -2151,7 +2151,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return keypoints;
     } // order_keypoints_enveloppe()
 
-	std::vector<Components::Point*> Stabilize::delete_used_keypoints_beam(Components::Point* point, std::vector<Components::Point*> keypoints)
+	std::vector<Components::Point*> stabilize::delete_used_keypoints_beam(Components::Point* point, std::vector<Components::Point*> keypoints)
 	{
         std::vector<Components::Point*> temp_keypoints;
 		for (unsigned int i = 0; i < keypoints.size(); i++)
@@ -2169,23 +2169,23 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
         return temp_keypoints;
 	} // delete_used_keypoints_beam()
 
-	std::vector<Components::Point*> Stabilize::delete_unzoned_keypoints_beam(Components::Point* point, std::vector<Components::Point*> keypoints)
+	std::vector<Components::Point*> stabilize::delete_unzoned_keypoints_beam(Components::Point* point, std::vector<Components::Point*> keypoints)
 	{
         std::vector<Components::Point*> temp_keypoints;
-		std::map<Components::Point*, Spatial_Design::Geometry::Vertex*>::iterator it_1; // point_vertex
+		std::map<Components::Point*, spatial_design::Geometry::Vertex*>::iterator it_1; // point_vertex
 
 		it_1 = point_vertex.find(point);
-		Spatial_Design::Geometry::Vertex* v1 = it_1->second;
+		spatial_design::Geometry::Vertex* v1 = it_1->second;
 		for (unsigned int i = 0; i < keypoints.size(); i++)
         {
 			it_1 = point_vertex.find(keypoints[i]);
-			Spatial_Design::Geometry::Vertex* v2 = it_1->second;
+			spatial_design::Geometry::Vertex* v2 = it_1->second;
 		    for (unsigned int j = 0; j < m_CF->get_line_count(); j++)
 		    {
 				if (m_CF->get_line(j)->get_zoned() == true)
 				{
-					Spatial_Design::Geometry::Vertex* v3 = m_CF->get_line(j)->get_vertex_ptr(0);
-					Spatial_Design::Geometry::Vertex* v4 = m_CF->get_line(j)->get_vertex_ptr(1);
+					spatial_design::Geometry::Vertex* v3 = m_CF->get_line(j)->get_vertex_ptr(0);
+					spatial_design::Geometry::Vertex* v4 = m_CF->get_line(j)->get_vertex_ptr(1);
 					if ((v1 == v3 && v2 == v4) || (v1 == v4 && v2 == v3))
 					{
 						temp_keypoints.push_back(keypoints[i]);
@@ -2197,7 +2197,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
         return temp_keypoints;
 	} // delete_unzoned_keypoints_beam()
 
-	std::vector<Components::Point*> Stabilize::search_keypoints_truss(std::pair<Components::Point*, unsigned int> point_dof)
+	std::vector<Components::Point*> stabilize::search_keypoints_truss(std::pair<Components::Point*, unsigned int> point_dof)
 	{
 		std::vector<Components::Point*> keypoints;
 		std::vector<Components::Point*> keypoints_1;
@@ -2207,20 +2207,20 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		switch (dof)
         {
         case 0: // uX: keypoints in xz- and xy-planes
-			keypoints_1 = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-            keypoints_2 = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+			keypoints_1 = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+            keypoints_2 = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
 			keypoints = keypoints_2;
 			keypoints.insert(keypoints.begin(), keypoints_1.begin(), keypoints_1.end());
             break;
         case 1: // uY: keypoints in yz- and xy-planes
-			keypoints_1 = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
-	        keypoints_2 = Stabilize::get_keypoints_truss(point_dof, 'x', 'y');
+			keypoints_1 = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+	        keypoints_2 = stabilize::get_keypoints_truss(point_dof, 'x', 'y');
 			keypoints = keypoints_2;
 			keypoints.insert(keypoints.begin(), keypoints_1.begin(), keypoints_1.end());
             break;
         case 2: // uZ: keypoints in xz- and yz-planes
-			keypoints_1 = Stabilize::get_keypoints_truss(point_dof, 'x', 'z');
-	        keypoints_2 = Stabilize::get_keypoints_truss(point_dof, 'y', 'z');
+			keypoints_1 = stabilize::get_keypoints_truss(point_dof, 'x', 'z');
+	        keypoints_2 = stabilize::get_keypoints_truss(point_dof, 'y', 'z');
 			keypoints = keypoints_2;
 			keypoints.insert(keypoints.begin(), keypoints_1.begin(), keypoints_1.end());
             break;
@@ -2237,7 +2237,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return keypoints;
 	} // search_keypoints_truss()
 
-	std::vector<Components::Point*> Stabilize::search_keypoints_beam(std::pair<Components::Point*, unsigned int> point_dof)
+	std::vector<Components::Point*> stabilize::search_keypoints_beam(std::pair<Components::Point*, unsigned int> point_dof)
 	{
 		std::vector<Components::Point*> keypoints;
 		std::vector<Components::Point*> keypoints_1;
@@ -2247,20 +2247,20 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		switch (dof)
         {
         case 0: // uX: keypoints on y- and z-axis
-            keypoints_1 = Stabilize::get_keypoints_beam(point_dof, 'y');
-            keypoints_2 = Stabilize::get_keypoints_beam(point_dof, 'z');
+            keypoints_1 = stabilize::get_keypoints_beam(point_dof, 'y');
+            keypoints_2 = stabilize::get_keypoints_beam(point_dof, 'z');
 			keypoints = keypoints_2;
             keypoints.insert(keypoints.begin(), keypoints_1.begin(), keypoints_1.end());
             break;
         case 1: // uY: keypoints on x- and z-axis
-            keypoints_1 = Stabilize::get_keypoints_beam(point_dof, 'x');
-            keypoints_2 = Stabilize::get_keypoints_beam(point_dof, 'z');
+            keypoints_1 = stabilize::get_keypoints_beam(point_dof, 'x');
+            keypoints_2 = stabilize::get_keypoints_beam(point_dof, 'z');
 			keypoints = keypoints_2;
             keypoints.insert(keypoints.begin(), keypoints_1.begin(), keypoints_1.end());
             break;
         case 2: // uZ: keypoints on x- and y-axis
-            keypoints_1 = Stabilize::get_keypoints_beam(point_dof, 'x');
-            keypoints_2 = Stabilize::get_keypoints_beam(point_dof, 'y');
+            keypoints_1 = stabilize::get_keypoints_beam(point_dof, 'x');
+            keypoints_2 = stabilize::get_keypoints_beam(point_dof, 'y');
 			keypoints = keypoints_2;
             keypoints.insert(keypoints.begin(), keypoints_1.begin(), keypoints_1.end());
             break;
@@ -2277,7 +2277,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return keypoints;
 	} // search_keypoints_beam()
 
-    std::vector<Components::Point*> Stabilize::get_keypoints_truss(std::pair<Components::Point*, unsigned int> free_dof, char dir_1, char dir_2)
+    std::vector<Components::Point*> stabilize::get_keypoints_truss(std::pair<Components::Point*, unsigned int> free_dof, char dir_1, char dir_2)
     {
 		std::map<Components::Point*, std::vector<unsigned int> >::iterator it_1; // free_dofs
         std::map<Components::Point*, std::vector<unsigned int> >::iterator it_2; // points_grid
@@ -2602,7 +2602,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return keypoints;
     } // get_keypoints_truss()
 
-	std::vector<Components::Point*> Stabilize::get_keypoints_beam(std::pair<Components::Point*, unsigned int> free_dof, char dir_1)
+	std::vector<Components::Point*> stabilize::get_keypoints_beam(std::pair<Components::Point*, unsigned int> free_dof, char dir_1)
     {
         std::map<Components::Point*, std::vector<unsigned int> >::iterator it_1; // free_dofs
         std::map<Components::Point*, std::vector<unsigned int> >::iterator it_2; // points_grid
@@ -2772,15 +2772,15 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return keypoints;
     } // get_keypoints_beam()
 
-	void Stabilize::add_truss(std::pair<Components::Point*, Components::Point*> dof_key)
+	void stabilize::add_truss(std::pair<Components::Point*, Components::Point*> dof_key)
 	{
-		if (Stabilize::find_rectangle(dof_key.first, dof_key.second) == true)
+		if (stabilize::find_rectangle(dof_key.first, dof_key.second) == true)
 		{
-			Spatial_Design::Geometry::Rectangle* temp_rectangle = Stabilize::get_rectangle(dof_key.first, dof_key.second);
-			
+			spatial_design::Geometry::Rectangle* temp_rectangle = stabilize::get_rectangle(dof_key.first, dof_key.second);
+
 			if (temp_rectangle->get_surface_count() == 0 && temp_rectangle->get_horizontal() == false)
 			{
-				std::map<Spatial_Design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_1; // rectangle_points
+				std::map<spatial_design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_1; // rectangle_points
 				it_1 = rectangle_points.find(temp_rectangle);
 				std::vector<Components::Point*> temp = it_1->second;
 				Components::Point* bottom_left = temp[0];
@@ -2807,9 +2807,9 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 							top_right = temp[i];
 					}
 				}
-				Stabilize::add_beam(bottom_left, top_left);
-				Stabilize::add_beam(top_left, top_right);
-				Stabilize::add_beam(top_right, bottom_right);
+				stabilize::add_beam(bottom_left, top_left);
+				stabilize::add_beam(top_left, top_right);
+				stabilize::add_beam(top_right, bottom_right);
 			}
 			else
 			{
@@ -2833,9 +2833,9 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		}
 	} // add_truss()
 
-	void Stabilize::add_truss(Spatial_Design::Geometry::Rectangle* temp_rectangle)
+	void stabilize::add_truss(spatial_design::Geometry::Rectangle* temp_rectangle)
 	{
-		std::map<Spatial_Design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_1; // rectangle_points
+		std::map<spatial_design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_1; // rectangle_points
 		it_1 = rectangle_points.find(temp_rectangle);
 		std::vector<Components::Point*> temp = it_1->second;
 		Components::Point* bottom_left = temp[0];
@@ -2859,10 +2859,10 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 			}
 		}
 		std::pair<Components::Point*, Components::Point*> temp_pair = std::make_pair(bottom_left, top_right);
-		Stabilize::add_truss(temp_pair);
+		stabilize::add_truss(temp_pair);
 	} // add_truss()
 
-	void Stabilize::add_beams(Components::Point* point, std::vector<Components::Point*> keypoints)
+	void stabilize::add_beams(Components::Point* point, std::vector<Components::Point*> keypoints)
 	{
 		//std::cout << "Adding beam(s) around point (" << point->get_coords()[0] << "," << point->get_coords()[1] << "," << point->get_coords()[2] << ")" << std::endl;
 
@@ -2890,10 +2890,10 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 			temp_pair = std::make_pair(keypoints[i], point);
 			added_beams.push_back(temp_pair);
         }
-		//Stabilize::delete_superfluous_truss(point, keypoints);
+		//stabilize::delete_superfluous_truss(point, keypoints);
 	} // add_beams()
 
-	void Stabilize::add_beam(Components::Point* p1, Components::Point* p2)
+	void stabilize::add_beam(Components::Point* p1, Components::Point* p2)
 	{
         for (unsigned int j = 0; j < m_SD->m_components.size(); j++)
         {
@@ -2918,17 +2918,17 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		added_beams.push_back(temp_pair);
 	} // add_beam()
 
-	void Stabilize::delete_superfluous_truss(Components::Point* point, std::vector<Components::Point*> keypoints)
+	void stabilize::delete_superfluous_truss(Components::Point* point, std::vector<Components::Point*> keypoints)
 	{
 		for (unsigned int i = 0; i < keypoints.size(); i++)
 		{
 			for (unsigned int j = 0; j < keypoints.size(); j++)
 			{
-				if (j != i && Stabilize::find_rectangle(keypoints[i], keypoints[j]) == true)
+				if (j != i && stabilize::find_rectangle(keypoints[i], keypoints[j]) == true)
 				{
-		            Spatial_Design::Geometry::Rectangle* temp_rectangle = Stabilize::get_rectangle(keypoints[i], keypoints[j]);
+		            spatial_design::Geometry::Rectangle* temp_rectangle = stabilize::get_rectangle(keypoints[i], keypoints[j]);
 		            if (temp_rectangle->is_structural() == true)
-						Stabilize::delete_truss(temp_rectangle);
+						stabilize::delete_truss(temp_rectangle);
 					else
 						temp_rectangle->make_structural();
 				}
@@ -2936,14 +2936,14 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		}
 	} // delete_superfluous_truss()
 
-	void Stabilize::delete_superfluous_trusses()
+	void stabilize::delete_superfluous_trusses()
 	{
 		for (unsigned int i = 0; i < m_CF->get_rectangle_count(); i++)
 		{
-			Spatial_Design::Geometry::Rectangle* temp_rectangle = m_CF->get_rectangle(i);
+			spatial_design::Geometry::Rectangle* temp_rectangle = m_CF->get_rectangle(i);
 			if (temp_rectangle->is_structural() == true)
 			{
-				std::map<Spatial_Design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_1; // rectangle_points
+				std::map<spatial_design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_1; // rectangle_points
 				it_1 = rectangle_points.find(temp_rectangle);
 				std::vector<Components::Point*> temp = it_1->second;
 				std::vector<std::pair<Components::Point*, Components::Point*> > temp_pairs;
@@ -2960,14 +2960,14 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 						beam_count++;
 				}
 				if (beam_count > 1)
-					Stabilize::delete_truss(temp_rectangle);
+					stabilize::delete_truss(temp_rectangle);
 			}
 		}
 	} // delete_superfluous_trusses()
 
-	void Stabilize::delete_truss(Spatial_Design::Geometry::Rectangle* rectangle)
+	void stabilize::delete_truss(spatial_design::Geometry::Rectangle* rectangle)
 	{
-		std::map<Spatial_Design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_1; // rectangle_points
+		std::map<spatial_design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_1; // rectangle_points
 		it_1 = rectangle_points.find(rectangle);
 		std::vector<Components::Point*> points = it_1->second;
 		for (unsigned int i = 0; i < m_SD->m_components.size(); i++)
@@ -2990,14 +2990,14 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
         }
 	} // delete_truss()
 
-    void Stabilize::relate_points_geometry()
+    void stabilize::relate_points_geometry()
     {
         unsigned int vertex_count = m_CF->get_vertex_count();
         for (unsigned int i = 0; i < m_points.size(); i++) // relate structural points and vertices
         {
             for (unsigned int j = 0; j < vertex_count; j++)
             {
-                Spatial_Design::Geometry::Vertex* temp_vertex = m_CF->get_vertex(j);
+                spatial_design::Geometry::Vertex* temp_vertex = m_CF->get_vertex(j);
                 if (m_points[i]->get_coords() == temp_vertex->get_coords())
                 {
                     point_vertex[m_points[i]] = temp_vertex;
@@ -3006,14 +3006,14 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
                 }
             }
         }
-		std::map<Spatial_Design::Geometry::Vertex*, Components::Point*>::iterator it_1; // vertex_point
+		std::map<spatial_design::Geometry::Vertex*, Components::Point*>::iterator it_1; // vertex_point
 		unsigned int rectangle_count = m_CF->get_rectangle_count();
 		for (unsigned int i = 0; i < rectangle_count; i++)
 		{
-			Spatial_Design::Geometry::Rectangle* temp_rectangle = m_CF->get_rectangle(i);
+			spatial_design::Geometry::Rectangle* temp_rectangle = m_CF->get_rectangle(i);
 			for (int j = 0; j < 4; j++)
 			{
-				Spatial_Design::Geometry::Vertex* temp_vertex = temp_rectangle->get_vertex_ptr(j);
+				spatial_design::Geometry::Vertex* temp_vertex = temp_rectangle->get_vertex_ptr(j);
 				it_1 = vertex_point.find(temp_vertex);
 				rectangle_points[temp_rectangle].push_back(it_1->second); // relate each rectangle to a vector of 4 structural points
 				point_rectangles[it_1->second].push_back(temp_rectangle); // relate each point to a vector of rectangles
@@ -3021,11 +3021,11 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		}
     } // relate_points_geometry()
 
-	bool Stabilize::find_rectangle(Components::Point* p1, Components::Point* p2)
+	bool stabilize::find_rectangle(Components::Point* p1, Components::Point* p2)
 	{
-        std::map<Components::Point*, std::vector<Spatial_Design::Geometry::Rectangle*> >::iterator it_1; // point_rectangles
-		std::map<Spatial_Design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_2; // rectangle_points
-		Spatial_Design::Geometry::Rectangle* temp_rectangle;
+        std::map<Components::Point*, std::vector<spatial_design::Geometry::Rectangle*> >::iterator it_1; // point_rectangles
+		std::map<spatial_design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_2; // rectangle_points
+		spatial_design::Geometry::Rectangle* temp_rectangle;
 		std::vector<Components::Point*> temp_points;
 		bool found = false;
 
@@ -3044,11 +3044,11 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return found;
 	} // find_rectangle()
 
-	Spatial_Design::Geometry::Rectangle* Stabilize::get_rectangle(Components::Point* p1, Components::Point* p2)
+	spatial_design::Geometry::Rectangle* stabilize::get_rectangle(Components::Point* p1, Components::Point* p2)
 	{
-        std::map<Components::Point*, std::vector<Spatial_Design::Geometry::Rectangle*> >::iterator it_1; // point_rectangles
-		std::map<Spatial_Design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_2; // rectangle_points
-		Spatial_Design::Geometry::Rectangle* temp_rectangle = m_CF->get_rectangle(0); // just to initialize
+        std::map<Components::Point*, std::vector<spatial_design::Geometry::Rectangle*> >::iterator it_1; // point_rectangles
+		std::map<spatial_design::Geometry::Rectangle*, std::vector<Components::Point*> >::iterator it_2; // rectangle_points
+		spatial_design::Geometry::Rectangle* temp_rectangle = m_CF->get_rectangle(0); // just to initialize
 		std::vector<Components::Point*> temp_points;
 
 		it_1 = point_rectangles.find(p1);
@@ -3065,16 +3065,16 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return temp_rectangle;
 	} // get_rectangle()
 
-	void Stabilize::update_singular_values()
+	void stabilize::update_singular_values()
 	{
 		singular_values = m_SD->get_points_singular_values();
 	} // update_singular_values()
 
-	std::vector<Components::Point*> Stabilize::get_zone_points(Spatial_Design::Zoning::Zone* zone)
+	std::vector<Components::Point*> stabilize::get_zone_points(spatial_design::zoning::zone* zone)
 	{
-		std::vector<Spatial_Design::Geometry::Vertex*> zone_vertices = zone->get_vertices();
+		std::vector<spatial_design::Geometry::Vertex*> zone_vertices = zone->get_vertices();
 		std::vector<Components::Point*> zone_points;
-		std::map<Spatial_Design::Geometry::Vertex*, Components::Point*>::iterator it_1; // vertex_point
+		std::map<spatial_design::Geometry::Vertex*, Components::Point*>::iterator it_1; // vertex_point
 		for (unsigned int i = 0; i < zone_vertices.size(); i++)
 		{
 			it_1 = vertex_point.find(zone_vertices[i]);
@@ -3083,7 +3083,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		return zone_points;
 	} // get_zone_points()
 
-	void Stabilize::delete_primary_zone_dofs()
+	void stabilize::delete_primary_zone_dofs()
 	{
 		std::map<Components::Point*, std::vector<unsigned int> >::iterator it_1; // free_dofs
 
@@ -3101,7 +3101,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		}
 	} // delete_primary_zone_dofs()
 
-	void Stabilize::get_floor_grid()
+	void stabilize::get_floor_grid()
 	{
 		for (unsigned int i = 0; i < floor_coords.size(); i++)
 		{
@@ -3117,7 +3117,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		}
 	} // get_floor_grid()
 
-	void Stabilize::get_floor_point()
+	void stabilize::get_floor_point()
 	{
 		for (unsigned int i = 0; i < floor_coords.size(); i++)
 		{
@@ -3132,7 +3132,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		}
 	} // get_floor_points()
 
-	void Stabilize::check_floating_zones()
+	void stabilize::check_floating_zones()
 	{
 		std::map<std::vector<unsigned int>, Components::Point*>::iterator it_1; // grid_points
 		Components::Point* point;
@@ -3263,7 +3263,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		}
 	} // check_floating_zones()
 
-    void Stabilize::show_free_dofs()
+    void stabilize::show_free_dofs()
     {
         std::map<Components::Point*, std::vector<unsigned int> >::iterator it;
 
@@ -3318,7 +3318,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
         }
     } // show_free_dofs()
 
-    void Stabilize::show_singulars()
+    void stabilize::show_singulars()
     {
         std::map<std::pair<Components::Point*, unsigned int>, double>::iterator it; // singular_values
         for (it = singular_values.begin(); it != singular_values.end(); it++)
@@ -3328,8 +3328,8 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
         }
     } // show_singulars()
 
-} // namespace Stabilization
-} // namespace Structural_Design
-} // namespace BSO
+} // namespace stabilization
+} // namespace structural_design
+} // namespace bso
 
 #endif //STABILIZE_HPP

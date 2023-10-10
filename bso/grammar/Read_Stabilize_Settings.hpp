@@ -6,11 +6,11 @@
 #include <string>
 
 #include <boost/algorithm/string.hpp>
-#include <BSO/Trim_And_Cast.hpp>
+#include <bso/utilities/trim_and_cast.hpp>
 
-namespace BSO { namespace Grammar {
+namespace bso { namespace grammar {
 
-struct Stabilize_Settings
+struct stabilize_settings
 {
 	unsigned int method;
 	double singular;
@@ -18,11 +18,11 @@ struct Stabilize_Settings
 	unsigned int zone_it;
 	unsigned int point_it_zoned;
 	bool delete_superfluous_trusses;
-}; // struct Stabilize_Settings
+}; // struct stabilize_settings
 
-Stabilize_Settings read_stabilize_settings(std::string input_file)
+stabilize_settings read_stabilize_settings(std::string input_file)
 {
-    Stabilize_Settings stabilize_settings;
+    stabilize_settings stabilize_settings;
 
     std::fstream input(input_file.c_str()); // open a file stream
     if (!input)
@@ -109,7 +109,7 @@ Stabilize_Settings read_stabilize_settings(std::string input_file)
 } // read_stabilize_settings()
 
 
-} // namespace Grammar
-} // namespace BSO
+} // namespace grammar
+} // namespace bso
 
 #endif // READ_STABILIZE_SETTINGS_HPP

@@ -6,10 +6,10 @@
 #include <iostream>
 #include <map>
 
-#include <BSO/Structural_Design/SD_Analysis.hpp>
-#include <BSO/Structural_Design/Components/Point_Comp.hpp>
+#include <bso/structural_design/SD_Analysis.hpp> //nog vervangen, fea.hpp?
+#include <bso/structural_design/component/point.hpp>
 
-namespace BSO { namespace Structural_Design { namespace Stabilization
+namespace bso { namespace structural_design { namespace stabilization
 {
     using namespace std;
     struct coord
@@ -24,7 +24,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
         }
     }; //coord
 
-    class Grid
+    class grid
     {
     private:
         SD_Analysis_Vars* SD;
@@ -38,9 +38,9 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		unsigned int x_size, y_size, z_size;
 
     public:
-        Grid(SD_Analysis_Vars*); // ctor
-		Grid(vector<Components::Point*>); // ctor
-        ~Grid(); // dtor
+        grid(SD_Analysis_Vars*); // ctor
+		grid(vector<Components::Point*>); // ctor
+        ~grid(); // dtor
         vector<vector<vector<coord*>>> get_grid();
         void show_grid();
         map<vector<unsigned int>, vector<int> > get_grid_coords();
@@ -51,7 +51,7 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
     };
 
 
-    Grid::Grid(SD_Analysis_Vars* SD)
+    grid::grid(SD_Analysis_Vars* SD)
     {
         // create grid vector
         m_points = SD->get_points();
@@ -163,17 +163,17 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		{
 			grid_points[it_3->second] = it_3->first;
 		}
-		
+
 		// determine grid sizes
 		x_size = x.size();
 		y_size = y.size();
 		z_size = z.size();
-		
-		
+
+
 
     } // ctor
-	
-    Grid::Grid(vector<Components::Point*> points)
+
+    grid::grid(vector<Components::Point*> points)
     {
         // create grid vector
         m_points = points;
@@ -285,28 +285,28 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
 		{
 			grid_points[it_3->second] = it_3->first;
 		}
-		
+
 		// determine grid sizes
 		x_size = x.size();
 		y_size = y.size();
 		z_size = z.size();
-		
-		
+
+
 
     } // ctor
 
-    Grid::~Grid()
+    grid::~grid()
     {
 
     } // dtor
 
-    vector<vector<vector<coord*>>> Grid::get_grid()
+    vector<vector<vector<coord*>>> grid::get_grid()
     {
         return grid;
     }
 
 
-    void Grid::show_grid()
+    void grid::show_grid()
     {
 
         for (unsigned int i = 0; i < grid.size(); i ++)
@@ -324,38 +324,38 @@ namespace BSO { namespace Structural_Design { namespace Stabilization
         }
     }
 
-    map<vector<unsigned int>, vector<int> > Grid::get_grid_coords()
+    map<vector<unsigned int>, vector<int> > grid::get_grid_coords()
     {
         return grid_coords;
     }
 
-    map<pair<vector<unsigned int>, vector<int> >, Components::Point* > Grid::get_grid_coords_points()
+    map<pair<vector<unsigned int>, vector<int> >, Components::Point* > grid::get_grid_coords_points()
     {
         return grid_coords_points;
     }
 
-    map<Components::Point*, vector<unsigned int> > Grid::get_points_grid()
+    map<Components::Point*, vector<unsigned int> > grid::get_points_grid()
     {
         return points_grid;
     }
 
-	map<vector<unsigned int>, Components::Point*> Grid::get_grid_points()
+	map<vector<unsigned int>, Components::Point*> grid::get_grid_points()
 	{
 		return grid_points;
 	}
-	
-	unsigned int Grid::get_grid_size(char axis)
+
+	unsigned int grid::get_grid_size(char axis)
 	{
 		if (axis == 'x')
 			return x_size;
 		else if (axis == 'y')
 			return y_size;
 		else
-			return z_size;		
+			return z_size;
 	}
-	
-} // namespace Stabilization
-} // namespace Structural_Design
-} // namespace BSO
+
+} // namespace stabilization
+} // namespace structural_design
+} // namespace bso
 
 #endif //GRID_HPP

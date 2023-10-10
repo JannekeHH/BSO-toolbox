@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1696837306 source:c:\users\20183767\desktop\gitjhh\bso-toolbox\unit_tests\all_test.cpp
+	<boost/test/included/unit_test.hpp>
+	<unit_tests/utilities/trim_and_cast_test.cpp>
+	<unit_tests/utilities/geometry_test.cpp>
+	<unit_tests/utilities/data_handling_test.cpp>
+	<unit_tests/spatial_design/ms_space_test.cpp>
+	<unit_tests/spatial_design/ms_building_test.cpp>
+	<unit_tests/spatial_design/sc_building_test.cpp>
+	<unit_tests/spatial_design/conformal_test.cpp>
+	<unit_tests/spatial_design/xml/xml_test.cpp>
+	<unit_tests/structural_design/structural_design_test.cpp>
+	<unit_tests/building_physics/building_physics_test.cpp>
+	<unit_tests/grammar/grammar_test.cpp>
+

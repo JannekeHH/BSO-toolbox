@@ -5,15 +5,15 @@
 #include <algorithm>
 #include <iostream>
 
-#include <BSO/Spatial_Design/Conformation.hpp>
+#include <bso/spatial_design/cf_building.hpp> //klopt? of meer
 
 
-namespace BSO { namespace Spatial_Design { namespace Zoning {
+namespace bso { namespace spatial_design { namespace zoning {
 
-class Zone
+class zone
 {
 private:
-	BSO::Spatial_Design::MS_Conformal* m_CF;
+	bso::spatial_design::MS_Conformal* m_CF;
 	std::vector<Geometry::Cuboid*> m_cuboids;
 	std::vector<unsigned int> m_cuboid_IDs;
 	std::vector<Geometry::Space*> m_spaces;
@@ -34,8 +34,8 @@ private:
 	bool combined_zone = false;
 	int ID;
 public:
-	Zone(std::vector<Geometry::Cuboid*>& cuboids);
-	~Zone();
+	zone(std::vector<Geometry::Cuboid*>& cuboids);
+	~zone();
 
     void add_cuboid(Geometry::Cuboid* cuboid);
     void add_cuboid_ID(unsigned int);
@@ -58,7 +58,7 @@ public:
     unsigned int get_type();
     unsigned int get_cuboid_count();
     Geometry::Cuboid* get_cuboid(unsigned int);
-    void duplicate(Zone*);
+    void duplicate(zone*);
     void tag_for_type_change(unsigned int);
     void untag_for_type_change();
     bool check_type_change();
@@ -73,7 +73,7 @@ public:
     void tag_floating_zone();
     void untag_floating_zone();
     bool check_floating_zone();
-    void combine_zones(Zone*);
+    void combine_zones(zone*);
     void add_ID(unsigned int);
     unsigned int get_ID();
     void tag_combined_zone();
@@ -86,12 +86,12 @@ public:
     unsigned int get_vertex_count();
     Geometry::Vertex* get_vertex(unsigned int);
     std::vector <Geometry::Vertex*> get_vertices();
-}; // Zone
+}; // zone
 
-} // namespace Zoning
-} // namespace Spatial_Design
-} // namespace BSO
+} // namespace zoning
+} // namespace spatial_design
+} // namespace bso
 
-#include <BSO/Spatial_Design/Zoning/Zone.cpp>
+#include <bso/spatial_design/zoning/zone.cpp>
 
 #endif //ZONE_HPP
